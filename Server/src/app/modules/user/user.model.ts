@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 
-import config from "../../config";
+
 import { createHashPassword } from "../../utils/createHashPassword";
 
 const userSchema = new Schema(
@@ -41,6 +41,16 @@ const userSchema = new Schema(
       type: String,
       default: null,
       optional: true,
+    },
+    city: {
+      type: String,
+      default: null,
+      optional: true,
+    },
+    zipCode: {
+      type: Number,
+      default: null,
+      optional: true,
     }
   }, 
   {
@@ -50,9 +60,9 @@ const userSchema = new Schema(
 userSchema.pre('save', async function (next) {
     this.password = await createHashPassword(
       this.password,
-      config.bcrypt_salt_rounds as string,
+    
     );
-  
+  console.log("model",this.password);
     next();
   });
 

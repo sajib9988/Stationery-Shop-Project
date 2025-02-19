@@ -29,14 +29,22 @@ const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['allUser','updateUserPass']
     }),
+
+
     updateProfile: builder.mutation({
-      query: (data) => ({
-        url: "/auth/update-profile",
-        method: "PATCH",
-        body:data
-      }),
-      invalidatesTags:['updateUserPass']
-    }),
+  query: (data: { email: string; [key: string]: string | number | boolean }) => {
+    const { ...filteredData } = data; 
+    return {
+      url: "/auth/update-profile",
+      method: "PATCH",
+      body: filteredData,
+    };
+  },
+  invalidatesTags: ["updateUserPass"],
+}),
+
+
+
     updatePassword: builder.mutation({
       query: (data) => ({
         url: "/auth/update-password",

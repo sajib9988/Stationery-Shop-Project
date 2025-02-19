@@ -8,4 +8,6 @@ export const userValidationSchema = z.object({
   role: z.enum(["customer", "admin"]).default("customer"),
   isBlocked: z.boolean().default(false).optional(),
   phone: z.string().nullable().optional(),
+  zipCode: z.number().nullable().optional(),
+  address: z.string().nullable().optional(),
 });

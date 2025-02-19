@@ -7,7 +7,7 @@ const baseQuery = fetchBaseQuery({
   credentials: "include", 
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
-    console.log("🔑 Sending Access Token:", token);
+    // console.log("🔑 Sending Access Token:", token);
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
     }
@@ -21,7 +21,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-  console.log("🚀 API Response Before Refresh:", result);
+  // console.log("🚀 API Response Before Refresh:", result);
 
   if (result?.error?.status === 401) {
     console.log("🔄 Access Token Expired! Refreshing...");
@@ -32,7 +32,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     });
 
     const data = await res.json();
-    console.log("🔑 New Token Received:", data);
+    // console.log("🔑 New Token Received:", data);
 
     if (data?.data?.accessToken) {
       const user = (api.getState() as RootState).auth.user;
@@ -44,7 +44,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     }
   }
 
-  console.log("🚀 API Response After Refresh:", result);
+  // console.log("🚀 API Response After Refresh:", result);
   return result;
 };
 

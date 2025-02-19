@@ -3,6 +3,8 @@ import { AuthController } from './auth.controller';
 import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { AuthValidation } from './auth.validation';
+import User from '../user/user.model';
+import { USER_ROLE } from './auth.interface';
 
 const router = express.Router();
 
@@ -20,6 +22,8 @@ router.post(
 
 router.post('/logout', auth(), AuthController.logout);
 
+router.post('/refresh-token', AuthController.refreshToken); // Add this line
+
 router.patch(
   '/update-profile',
   auth(),
@@ -29,11 +33,11 @@ router.patch(
 
 router.patch(
   '/update-password',
-  auth(),
+  auth(USER_ROLE.admin, USER_ROLE.customer),
   validateRequest(AuthValidation.updatePasswordZodSchema),
   AuthController.updatePassword
 );
 
 router.get('/me', auth(), AuthController.getMe);
 
-export const AuthRoutes = router; 
+export const AuthRoutes = router;

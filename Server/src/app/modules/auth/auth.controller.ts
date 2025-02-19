@@ -4,6 +4,7 @@ import httpStatus from 'http-status';
 import sendResponse from '../../utils/sendResponse';
 import catchAsync from '../../utils/catchAsync';
 import { JwtPayload } from 'jsonwebtoken';
+import AppError from '../../utils/AppError';
 
 const login = catchAsync(async (req: Request, res: Response) => {
   const result = await AuthService.login(req.body);
@@ -40,6 +41,21 @@ const logout = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const refreshToken = catchAsync(async (req: Request, res: Response) => {
+  const { refreshToken } = req.cookies;
+  if (!refreshToken) {
+    throw new AppError(httpStatus.UNAUTHORIZED, 'Refresh token not found');
+  }
+
+  const result = await AuthService.refreshToken(refreshToken, res);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Token refreshed successfully',
+    data: result,
+  });
+});
+
 const updateProfile = catchAsync(async (req: Request, res: Response) => {
   const { userId } = req.user as JwtPayload;
   const result = await AuthService.updateProfile(userId, req.body);
@@ -52,11 +68,20 @@ const updateProfile = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updatePassword = catchAsync(async (req: Request, res: Response) => {
-  await AuthService.updatePassword(req.user as JwtPayload, req.body);
+  console.log(" controller:", req.user); // Debug log
+
+  const { oldPassword, newPassword } = req.body;
+
+  if (!oldPassword || !newPassword) {
+    throw new AppError(httpStatus.BAD_REQUEST, "All password fields are required");
+  }
+  console.log("req.user:", req.user);
+  await AuthService.updatePassword(req.user as JwtPayload, { oldPassword, newPassword });
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Password updated successfully',
+    message: "Password updated successfully",
   });
 });
 
@@ -75,7 +100,8 @@ export const AuthController = {
   login,
   register,
   logout,
+  refreshToken,
   updateProfile,
   updatePassword,
   getMe,
-}; 
+};

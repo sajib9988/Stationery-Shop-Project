@@ -11,6 +11,7 @@ import config from '../../config';
 import AppError from '../../utils/AppError';
 import httpStatus from 'http-status';
 import User from '../user/user.model';
+import { createHashPassword } from './../../utils/createHashPassword';
 
 
 
@@ -56,7 +57,7 @@ const login = async (payload: ILoginUser) => {
     throw new AppError(httpStatus.NOT_FOUND, 'User not found');
   }
 
-
+console.log("payload",payload?.password, user?.password)
   const isPasswordMatched = await bcrypt.compare(payload?.password, user?.password);
   if (!isPasswordMatched) {
     throw new AppError(httpStatus.FORBIDDEN, 'Wrong Password!');
@@ -123,11 +124,8 @@ const refreshToken = async (token: string, res: Response) => {
     sameSite: "strict",
   });
   
-  // console.log("Refresh Token Set in Cookie:", newRefreshToken)
-  
-
   return accessToken;
-};
+};;
 
 const logout = async (res: Response) => {
   res.clearCookie('refreshToken', {
@@ -138,32 +136,46 @@ const logout = async (res: Response) => {
 
   return { message: 'Logged out successfully' };
 };
-
 const updatePassword = async (
-  userData: JwtPayload,
+  userData: JwtPayload, 
   payload: { oldPassword: string; newPassword: string }
 ) => {
+  console.log("🔑 User Data:",payload,  userData); // Debug log
+
   const { userId } = userData;
+  if (!userId) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "Invalid user authentication");
+  }
+
+  console.log("🔍 Searching User by ID:", userId); // Debug log
+
   const user = await User.findById(userId).select('+password');
+
+  // console.log("👤 User Fetched from DB:", user); // Debug log
+
   if (!user) {
-    throw new AppError(httpStatus.NOT_FOUND, 'User not found');
+    throw new AppError(httpStatus.NOT_FOUND, "User not found");
   }
-
-  const isPasswordMatched = await bcrypt.compare(
-    payload.oldPassword,
-    user.password
-  );
-
+  console.log("user.password",payload,
+    user)
+  const isPasswordMatched = await bcrypt.compare(payload.oldPassword, user.password);
   if (!isPasswordMatched) {
-    throw new AppError(
-      httpStatus.FORBIDDEN,
-      'Please enter current password correctly'
-    );
+    throw new AppError(httpStatus.FORBIDDEN, "Please enter current password correctly");
   }
 
-  user.password = payload.newPassword;
-  await user.save();
+  const hashedNewPassword = await createHashPassword(
+        payload.newPassword );
+        await User.findByIdAndUpdate(userId, {
+          password: hashedNewPassword,
+        });
+  
+
+  console.log(`✅ Password updated for user: ${user.email}`); // Debug log
 };
+
+
+
+
 
 const updateProfile = async (userId: string, payload: Partial<IUser>) => {
   const result = await User.findByIdAndUpdate(userId, payload, { new: true });

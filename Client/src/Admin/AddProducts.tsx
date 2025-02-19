@@ -97,7 +97,7 @@ const AddProduct = () => {
               <div>
                 <FormLabel className="text-white">Product Image</FormLabel>
                 <Input ref={fileInputRef} type="file" accept="image/*" onChange={(e) => e.target.files?.[0] && handleImageChange(e.target.files[0])} className="w-full bg-black text-white" />
-                {!image && form.formState.isSubmitted && <p className="text-red-500">Product image is required.</p>}
+                {/* {!image && form.formState.isSubmitted && <p className="text-red-500">Product image is required.</p>} */}
                 {image && (
                   <Button type="button" onClick={() => { setImage(null); if (fileInputRef.current) fileInputRef.current.value = ""; }} className="mt-2 bg-red-500 hover:bg-red-600 text-white">
                     Remove Image

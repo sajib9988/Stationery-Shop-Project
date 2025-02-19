@@ -7,17 +7,8 @@ import {
   useUpdateProfileMutation,
 } from "../redux/feature/authManage/authApi";
 import { Label } from "../components/ui/label";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "../components/ui/avatar";
-import {
-  Card,
-  CardTitle,
-  CardHeader,
-  CardContent,
-} from "../components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
+import { Card, CardTitle, CardHeader, CardContent } from "../components/ui/card";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import {
@@ -63,21 +54,23 @@ const ProfileUpdate = () => {
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
 
+  // Profile state includes all fields from the database.
   const [profile, setProfile] = useState({
     name: "",
     email: "",
     phone: "",
     address: "",
+    zipCode: "",
     profileImage: "",
   });
 
   const [passwords, setPasswords] = useState({
     oldPassword: "",
     newPassword: "",
-    confirmPassword: "",
   });
 
-  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  // States for controlling modals.
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
   useEffect(() => {
@@ -87,6 +80,7 @@ const ProfileUpdate = () => {
         email: user?.data?.email || "",
         phone: user?.data?.phone || "",
         address: user?.data?.address || "",
+        zipCode: user?.data?.zipCode || "",
         profileImage: user?.data?.profileImage || "",
       });
     }
@@ -94,10 +88,6 @@ const ProfileUpdate = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPasswords({ ...passwords, [e.target.name]: e.target.value });
   };
 
   const handleImageChange = (file: File) => {
@@ -109,13 +99,15 @@ const ProfileUpdate = () => {
     if (
       !profile.name.trim() ||
       !profile.phone.trim() ||
-      !profile.address.trim()
+      !profile.address.trim() ||
+      !profile.zipCode.trim()
     ) {
       return toast.error("Fields cannot be empty!");
     }
+  
     const toastId = toast.loading("Updating profile...");
     let imageUrl = profile.profileImage;
-
+  
     if (image) {
       try {
         imageUrl = await uploadImageToCloudinary(image);
@@ -125,36 +117,51 @@ const ProfileUpdate = () => {
       }
     }
 
-    const res = await updateProfile({ ...profile, profileImage: imageUrl });
+    const zipCodeNumber = parseInt(profile.zipCode, 10);
+ 
+    const numericZipCode = isNaN(zipCodeNumber) ? "" : zipCodeNumber;
+  
+    // Email is not editable, so we separate it out.
+    const { email, ...profileData } = profile;
+  
+    const res = await updateProfile({
+      ...profileData,
+      email: profile.email,
+      zipCode: numericZipCode, 
+      profileImage: imageUrl,
+    });
+  
     if (res?.data?.success) {
       toast.success("Profile updated successfully", { id: toastId });
-      setIsEditingProfile(false);
+      setIsProfileModalOpen(false);
     } else {
       toast.error("Failed to update profile", { id: toastId });
     }
   };
+  
 
-  const handleUpdatePassword = async () => {
-    if (
-      !passwords.oldPassword ||
-      !passwords.newPassword ||
-      !passwords.confirmPassword
-    ) {
-      return toast.error("Please fill in all password fields.");
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswords({ ...passwords, [e.target.name]: e.target.value });
+  };
+
+  const handleChangePassword = async () => {
+    if (!passwords.oldPassword || !passwords.newPassword) {
+      return toast.error("All fields are required!");
     }
-    if (passwords.newPassword !== passwords.confirmPassword) {
-      return toast.error("New passwords do not match.");
-    }
+
     const toastId = toast.loading("Updating password...");
+
     const res = await updatePassword({
       oldPassword: passwords.oldPassword,
       newPassword: passwords.newPassword,
     });
+
     if (res?.data?.success) {
       toast.success("Password updated successfully", { id: toastId });
       setIsPasswordModalOpen(false);
+      setPasswords({ oldPassword: "", newPassword: "" });
     } else {
-      toast.error("Failed to update password", { id: toastId });
+      toast.error(res?.data?.message || "Failed to update password", { id: toastId });
     }
   };
 
@@ -168,105 +175,107 @@ const ProfileUpdate = () => {
         <CardHeader className="flex items-center gap-4">
           <Avatar className="w-20 h-20">
             <AvatarImage
-              src={
-                imagePreview ||
-                profile.profileImage ||
-                "https://via.placeholder.com/150"
-              }
+              src={imagePreview || profile.profileImage || "https://via.placeholder.com/150"}
             />
-            <AvatarFallback>
-              {profile.name?.charAt(0) || "U"}
-            </AvatarFallback>
+            <AvatarFallback>{profile.name?.charAt(0) || "U"}</AvatarFallback>
           </Avatar>
           <CardTitle>Profile Information</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Displaying only image, name, email, and phone as plain text */}
+          <div className="space-y-2">
             <div>
-              <Label>Name</Label>
-              <Input
-                name="name"
-                required
-                value={profile.name}
-                onChange={handleInputChange}
-                disabled={!isEditingProfile}
-                placeholder="Enter your name"
-                className="w-full h-12 border-2 border-gray-300 rounded-lg px-3"
-              />
+              <strong>Name:</strong> {profile.name}
             </div>
             <div>
-              <Label>Email</Label>
-              <Input
-                name="email"
-                value={profile.email}
-                disabled
-                placeholder="Your email"
-                className="w-full h-12 border-2 border-gray-300 rounded-lg px-3"
-              />
+              <strong>Email:</strong> {profile.email}
             </div>
             <div>
-              <Label>Phone</Label>
-              <Input
-                name="phone"
-                value={profile.phone}
-                onChange={handleInputChange}
-                disabled={!isEditingProfile}
-                placeholder="Enter your phone number"
-                className="w-full h-12 border-2 border-gray-300 rounded-lg px-3"
-              />
-            </div>
-            <div>
-              <Label>Address</Label>
-              <Input
-                name="address"
-                value={profile.address}
-                onChange={handleInputChange}
-                disabled={!isEditingProfile}
-                placeholder="Enter your address"
-                className="w-full h-12 border-2 border-gray-300 rounded-lg px-3"
-              />
-            </div>
-            <div className="col-span-2">
-              <Label>Profile Image</Label>
-              <Input
-                type="file"
-                accept="image/*"
-                onChange={(e) =>
-                  e.target.files?.[0] && handleImageChange(e.target.files[0])
-                }
-                disabled={!isEditingProfile}
-                placeholder="Choose an image"
-                className="w-full h-12 border-2 border-gray-300 rounded-lg px-3"
-              />
+              <strong>Phone:</strong> {profile.phone}
             </div>
           </div>
 
           <div className="flex gap-4 mt-6">
-            {isEditingProfile ? (
-              <>
-                <Button variant="outline" onClick={handleUpdateProfile}>
-                  Save Changes
-                </Button>
-                <Button
-                  variant="destructive"
-                  onClick={() => setIsEditingProfile(false)}
-                >
-                  Cancel
-                </Button>
-              </>
-            ) : (
-              <Button
-                variant="outline"
-                onClick={() => setIsEditingProfile(true)}
-              >
-                Edit Profile
-              </Button>
-            )}
+            {/* Edit Profile Modal */}
+            <Dialog open={isProfileModalOpen} onOpenChange={setIsProfileModalOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline">Edit Profile</Button>
+              </DialogTrigger>
+              <DialogContent aria-describedby="edit-profile-description">
+                <DialogHeader>
+                  <DialogTitle>Edit Profile</DialogTitle>
+                  <DialogDescription id="edit-profile-description">
+                    Update your profile information. (Email cannot be edited)
+                  </DialogDescription>
+                </DialogHeader>
+                {/* Two-column layout for modal inputs */}
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                  <div>
+                    <Label>Name</Label>
+                    <Input
+                      name="name"
+                      value={profile.name}
+                      onChange={handleInputChange}
+                      placeholder="Enter your name"
+                      className="w-full h-12 border-2 border-gray-300 rounded-lg px-3"
+                    />
+                  </div>
+                  <div>
+                    <Label>Phone</Label>
+                    <Input
+                      name="phone"
+                      value={profile.phone}
+                      onChange={handleInputChange}
+                      placeholder="Enter your phone number"
+                      className="w-full h-12 border-2 border-gray-300 rounded-lg px-3"
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <Label>Address</Label>
+                    <Input
+                      name="address"
+                      value={profile.address}
+                      onChange={handleInputChange}
+                      placeholder="Enter your address"
+                      className="w-full h-12 border-2 border-gray-300 rounded-lg px-3"
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <Label>Zip Code</Label>
+                    <Input
+                      name="zipCode"
+                      value={profile.zipCode}
+                      onChange={handleInputChange}
+                      placeholder="Enter your zip code"
+                      className="w-full h-12 border-2 border-gray-300 rounded-lg px-3"
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <Label>Profile Image</Label>
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) =>
+                        e.target.files?.[0] && handleImageChange(e.target.files[0])
+                      }
+                      placeholder="Choose an image"
+                      className="w-full h-12 border-2 border-gray-300 rounded-lg px-3"
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-4 mt-6">
+                  <Button variant="outline" onClick={handleUpdateProfile}>
+                    Save Changes
+                  </Button>
+                  <Button variant="destructive" onClick={() => setIsProfileModalOpen(false)}>
+                    Cancel
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
 
-            <Dialog
-              open={isPasswordModalOpen}
-              onOpenChange={setIsPasswordModalOpen}
-            >
+            {/* Change Password Modal */}
+            <Dialog open={isPasswordModalOpen} onOpenChange={setIsPasswordModalOpen}>
               <DialogTrigger asChild>
                 <Button variant="outline">Change Password</Button>
               </DialogTrigger>
@@ -300,26 +309,12 @@ const ProfileUpdate = () => {
                       className="w-full h-12 border-2 border-gray-300 rounded-lg px-3"
                     />
                   </div>
-                  <div>
-                    <Label>Confirm New Password</Label>
-                    <Input
-                      name="confirmPassword"
-                      type="password"
-                      value={passwords.confirmPassword}
-                      onChange={handlePasswordChange}
-                      placeholder="Confirm new password"
-                      className="w-full h-12 border-2 border-gray-300 rounded-lg px-3"
-                    />
-                  </div>
                 </div>
                 <div className="flex gap-4 mt-6">
-                  <Button variant="outline" onClick={handleUpdatePassword}>
+                  <Button variant="outline" onClick={handleChangePassword}>
                     Save Password
                   </Button>
-                  <Button
-                    variant="destructive"
-                    onClick={() => setIsPasswordModalOpen(false)}
-                  >
+                  <Button variant="destructive" onClick={() => setIsPasswordModalOpen(false)}>
                     Cancel
                   </Button>
                 </div>

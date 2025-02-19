@@ -8,6 +8,8 @@ export interface IUser {
   isBlocked?: boolean;
   address?: string;
   phone?: string;
+  city?: string;
+  zipcode?: number;
 }
 
 export interface ILoginUser {
