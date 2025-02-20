@@ -8,12 +8,13 @@ import { Button } from "../components/ui/button";
 
 const Cart = () => {
   const cartData = useAppSelector((state) => state.cart);
+  console.log(cartData); 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   return (
-    <section className="container mx-auto min-h-[70vh] grid grid-cols-1 lg:grid-cols-12 gap-12 py-6 px-4 md:px-0">
+    <section className="container border-red-500 mx-auto min-h-[70vh] grid grid-cols-1 lg:grid-cols-12 gap-12 py-6 px-4 md:px-0">
       {/* Left Side: Product List */}
-      <div className="lg:col-span-9 rounded-lg shadow-md p-6">
+      <div className="lg:col-span-9 rounded-lg shadow-md p-6 border-red-500">
         <h2 className="text-xl font-bold mb-4">MY CART</h2>
         {cartData?.items.length > 0 ? (
           cartData?.items?.map((item) => (
@@ -23,7 +24,7 @@ const Cart = () => {
               className="flex md:flex-row flex-col items-center justify-between gap-4 border-b border-gray-200 py-4"
             >
               <img
-                src={cycle1}
+                src={item?.image}
                 alt="Product"
                 className="w-32 object-cover border rounded"
               />
