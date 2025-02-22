@@ -43,9 +43,9 @@ const cartSlice = createSlice({
       } else {
         state.items.push(action.payload);
         toast.success("Added to cart successfully",toastId);
+        state.totalQuantity += action.payload.selectQuantity;
+        state.totalPrice += action.payload.price * action.payload.selectQuantity;
       }
-      state.totalQuantity += action.payload.selectQuantity;
-      state.totalPrice += action.payload.price * action.payload.selectQuantity;
     },
     removeFromCart(state, action: PayloadAction<string>) {
       const itemId = action.payload;

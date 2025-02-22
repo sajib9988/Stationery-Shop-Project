@@ -18,6 +18,7 @@ interface Product {
   description?: string;
   model?: string;
   brand?: string;
+  quantity: number;
 }
 
 export default function StationaryProducts() {
@@ -55,6 +56,7 @@ export default function StationaryProducts() {
 
   // Fetch Data with Filters
   const { data, isLoading } = useGetAllProductsQuery(query);
+  console.log(data);
   const totalPages = data?.meta?.totalPage || 1;
 
   const handlePageChange = (page: number) => {
@@ -187,7 +189,7 @@ export default function StationaryProducts() {
                       description: product.description || "No description available", // Default description if not provided
                       model: product.model || "", // Default to empty string if model is not provided
                       brand: product.brand || "Generic", // Default brand name for stationery
-                      quantity: 1, // Default quantity for this item in the cart
+                      quantity: product.quantity, // Default quantity for this item in the cart
                     }))}>
                     <BiCart className="text-white text-lg" />
                   </button>

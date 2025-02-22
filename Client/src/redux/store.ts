@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import storage from 'redux-persist/lib/storage'
 import {
   persistStore,
@@ -15,32 +15,34 @@ import {
 import { baseApi } from './baseApi/baseApi'
 
 // Import your slices
-import authReducer from './feature/authManage/authSlice' // Adjust path if needed
+ // Adjust path if needed
 import cartReducer from './feature/cart/cartSlice'       // Correct import for cart slice
+import  authSlice  from './feature/authManage/authSlice'
 
+
+export const rootReducer = combineReducers({
+  [baseApi.reducerPath]: baseApi.reducer,
+  auth:  authSlice,           
+  cart: cartReducer,                     
+})
 // Persist configuration for the auth slice
 const persistConfig = {
-  key: 'auth',
+  key: 'Bikeauth',
   storage,
 }
-
+const persistedAuthReducer = persistReducer(persistConfig, rootReducer);
 // Create a persisted version of the authReducer
-const persistedAuthReducer = persistReducer(persistConfig, authReducer)
+
 
 // Configure the Redux store
 export const store = configureStore({
-  reducer: {
-    auth: persistedAuthReducer,            // Persisted auth slice
-    cart: cartReducer,                     // Cart slice
-    [baseApi.reducerPath]: baseApi.reducer // RTK Query API slice
-  },
+  reducer:persistedAuthReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        // Ignore these action types from redux-persist
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(baseApi.middleware), // Add RTK Query middleware
+    }).concat(baseApi.middleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

@@ -18,6 +18,8 @@ import ProductDetailsPage from "../pages/ProductDetailsPage";
 import AddProduct from "../Admin/AddProducts";
 import { AllUsers } from "../Admin/AllUsers";
 import { AdminOrder } from "../Admin/AdminOrder";
+import OrderPage from "../pages/OrderPage";
+import OrderResponse from "../pages/OrderResponse";
 
 
 
@@ -45,6 +47,14 @@ const router = createBrowserRouter([
         {  
             path: "/cart",
             element: <Cart></Cart>
+        },
+        {  
+            path: "/order",
+            element: <OrderPage></OrderPage>
+        },
+        {  
+            path: "/response",
+            element: <OrderResponse></OrderResponse>
         },
         {  
           path: "/details/:id",
