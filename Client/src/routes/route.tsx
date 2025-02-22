@@ -67,6 +67,7 @@ const router = createBrowserRouter([
                 <DashboardLayout />
               </DashboardProtected>
             ),
+            
             children: [
               { path: "/admin/dashboard", element: <AdminDashboardIndex /> },
               { path: "/admin/dashboard/products", element: <AddProduct /> },
