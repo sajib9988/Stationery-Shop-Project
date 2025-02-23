@@ -1,3 +1,4 @@
+import { IProduct, TResponseRedux } from "../../../types/type";
 import { baseApi } from "../../baseApi/baseApi";
 
 const productApi = baseApi.injectEndpoints({
@@ -9,7 +10,7 @@ const productApi = baseApi.injectEndpoints({
         method: "POST",
         body: productInfo,
       }),
-      invalidatesTags: ["Product"],
+      invalidatesTags: ["product"],
     }),
 
     // Query to fetch all products with filters
@@ -30,7 +31,11 @@ const productApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags: ["Product"],
+      transformResponse: (response: TResponseRedux<IProduct[]>) => ({
+        data: response.data,
+        meta: response.meta,
+      }),
+      providesTags: ["product"],
     }),
 
     // Query to get a specific product by ID
@@ -39,7 +44,7 @@ const productApi = baseApi.injectEndpoints({
         url: `/products/${id}`, 
         method: "GET",
       }),
-      providesTags: ["Product"],
+      providesTags: ["product"],
     }),
 
     // Mutation to update a product
@@ -49,7 +54,7 @@ const productApi = baseApi.injectEndpoints({
         method: "PUT",
         body: productData,
       }),
-      invalidatesTags: ["Product"],
+      invalidatesTags: ["product"],
     }),
 
     // Mutation to delete a product
@@ -58,7 +63,7 @@ const productApi = baseApi.injectEndpoints({
         url: `/products/${productId}`, // 
         method: "DELETE",
       }),
-      invalidatesTags: ["Product"],
+      invalidatesTags: ["product"],
     }),
   }),
 });

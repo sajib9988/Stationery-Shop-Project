@@ -1,3 +1,5 @@
+import { BaseQueryApi } from "@reduxjs/toolkit/query";
+
 // ../types/type.ts
 export interface IUser {
   _id: string;
@@ -10,7 +12,7 @@ export interface IUser {
   profileImage: string;
 }
   
-export type TResponseRedux<T> = {
+export type ApiResponse<T> = {
     data?: T;
     error?: TError;
     meta?: TMeta;
@@ -28,7 +30,14 @@ export type TResponseRedux<T> = {
         };
         status: number;
       };
-      
+      export type TResponse<T> = {
+        data?: T;
+        error?: TError;
+        meta?: TMeta;
+        statusCode: number;
+        success: boolean;
+        message: string;
+      };
       export type TMeta = {
         limit: number;
         page: number;
@@ -74,4 +83,4 @@ export type TResponseRedux<T> = {
         createdAt: string;
         updatedAt: string;
     }
-    
+    export type TResponseRedux<T> = TResponse<T> & BaseQueryApi;

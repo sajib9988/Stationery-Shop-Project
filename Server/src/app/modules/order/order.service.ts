@@ -116,6 +116,7 @@ const getOrders = async (
     .paginate();
 
   const result = await orderQuery.modelQuery;
+  console.log(result, 'result');
   const meta = await orderQuery.countTotal();
   return {
     meta,
@@ -129,6 +130,7 @@ const verifyPayment = async (order_id: string) => {
     const findOrder = await Order.findById(
       verifiedPayment[0]?.customer_order_id,
     );
+    console.log("finf", findOrder.products)
     for (const item of findOrder?.products as {
       product: Types.ObjectId;
       quantity: number;
@@ -137,7 +139,7 @@ const verifyPayment = async (order_id: string) => {
       if (!bike || bike.quantity < item.quantity) {
         throw new AppError(StatusCodes.CONFLICT,`Not enough stock for ${bike?.name}`);
       }
-
+console.log("bike",bike)
       bike.quantity -= item.quantity;
       if (bike.quantity === 0) {
         bike.inStock = false;

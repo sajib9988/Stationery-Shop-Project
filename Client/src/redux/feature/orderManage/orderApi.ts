@@ -19,7 +19,7 @@ const orderApi = baseApi.injectEndpoints({
           meta: response.meta,
         };
       },
-      providesTags: ["order"],
+      providesTags: ["order", "verified"],
     }),
 
     revenue: builder.query({
@@ -45,7 +45,7 @@ const orderApi = baseApi.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
-      invalidatesTags: ["order", "product"],
+      invalidatesTags: ["order", "product","verified"],
     }),
   }),
 });

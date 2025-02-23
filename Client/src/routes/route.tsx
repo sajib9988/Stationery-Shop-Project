@@ -17,9 +17,11 @@ import { DashboardProtected } from "../utils/DashboardProtected";
 import ProductDetailsPage from "../pages/ProductDetailsPage";
 import AddProduct from "../Admin/AddProducts";
 import { AllUsers } from "../Admin/AllUsers";
-import { AdminOrder } from "../Admin/AdminOrder";
+
 import OrderPage from "../pages/OrderPage";
 import OrderResponse from "../pages/OrderResponse";
+import { ProductTable } from "../Admin/ProductTable";
+import AdminOrder from "../Admin/AdminOrder";
 
 
 
@@ -73,6 +75,7 @@ const router = createBrowserRouter([
               { path: "/admin/dashboard/products", element: <AddProduct /> },
           
               { path: "/admin/dashboard/orders", element: <AdminOrder /> },
+              { path: "/admin/dashboard/product-table", element: <ProductTable></ProductTable> },
               { path: "/admin/dashboard/customer", element: <AllUsers /> },
               { path: "/admin/dashboard/profile-setting", element: <ProfileUpdate /> },
             ],

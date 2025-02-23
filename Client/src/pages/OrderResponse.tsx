@@ -1,10 +1,20 @@
 
 import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "../components/ui/button";
+import { useAppSelector } from "../redux/hook";
+import { TUser, useCurrentToken } from "../redux/feature/authManage/authSlice";
+import { verifyToken } from "../utils/verifyToken";
 
 const OrderResponse = () => {
   const [searchParams] = useSearchParams();
   const invoice = searchParams.get("order_id");
+  const token = useAppSelector(useCurrentToken);
+
+  let user;
+  if (token) {
+    user = verifyToken(token) as TUser;
+  }
+
 
   return (
     <div className="flex items-center justify-center min-h-[75vh] p-6">
@@ -17,11 +27,19 @@ const OrderResponse = () => {
           {invoice || "N/A"}
         </div>
 
-        <Link to="/user/dashboard/viewOrders">
-          <Button className="w-full  text-white font-semibold py-3 rounded-lg transition duration-300">
-            View My Orders
-          </Button>
-        </Link>
+       {user?.role === "admin" ? (
+          <Link to="/admin/dashboard/viewOrders">
+            <Button className="w-full  text-white font-semibold py-3 rounded-lg transition duration-300">
+              View My Orders
+            </Button>
+          </Link>
+        ) : (
+          <Link to="/user/dashboard/viewOrders">
+            <Button className="w-full  text-white font-semibold py-3 rounded-lg transition duration-300">
+              View My Orders
+            </Button>
+          </Link>
+        )} 
       </div>
     </div>
   );

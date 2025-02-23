@@ -21,7 +21,9 @@ const createOrder = catchAsync(async (req, res) => {
 const getOrders = catchAsync(async (req, res) => {
   const user=req?.user as IUser;
   const queryData = req?.query;
+  // console.log("queryData",queryData)
   const result = await orderService.getOrders(user,queryData);
+  // console.log(result,"result")
   res.status(StatusCodes.OK).json({
     success: true,
     message: 'Order get successfully',
