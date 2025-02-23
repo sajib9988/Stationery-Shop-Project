@@ -35,3 +35,43 @@ export type TResponseRedux<T> = {
         total: number;
         totalPage: number;
       };
+
+      export interface IProduct {
+        _id: string;
+        image: string;
+        name: string;
+        category: string;
+        price: number;
+        inStock: boolean;
+        description?: string;
+        model?: string;
+        brand?: string;
+        quantity: number;
+      }
+      export interface IOrderResponse {
+        _id: string;
+        user: IUser;
+        products: OrderItems;
+        createdAt: string;
+        updatedAt: string;
+    }
+    
+    export type OrderItems = {
+        quantity: number;
+        product: IProduct;
+    }[];
+    
+    export interface IOrder {
+        _id: string;
+        user: IUser;
+        products: OrderItems;
+        totalPrice: number;
+        status: string;
+        transaction: {
+            id: string;
+            status: string;
+        };
+        createdAt: string;
+        updatedAt: string;
+    }
+    

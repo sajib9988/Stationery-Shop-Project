@@ -22,7 +22,7 @@ app.use(express.json());
 app.use('/api/auth', AuthRoutes)
 app.use('/api/admin', userRouter)
 app.use("/api/products", ProductRoutes);
-app.use('/api/order',orderRoutes)
+app.use('/api/orders',orderRoutes)
 
 // Root Route
 app.get('/', (req: Request, res: Response) => {

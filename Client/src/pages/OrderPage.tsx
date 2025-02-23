@@ -10,7 +10,7 @@ import Loading from "./Loading";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
-import { useAddOrderMutation } from "../redux/feature/orderManage/orderApi";
+import { useCreateOrderMutation } from "../redux/feature/orderManage/orderApi";
 
  
 
@@ -19,7 +19,7 @@ const OrderPage = () => {
   const [updateProfile] = useUpdateProfileMutation();
   const cartData = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
-  const [createOrder, { isLoading: orderLoading, isSuccess, data: orderData, isError, error }] = useAddOrderMutation();
+  const [createOrder, { isLoading: orderLoading, isSuccess, data: orderData, isError, error }] = useCreateOrderMutation();
  
   const [userDetails, setUserDetails] = useState({
     name: "",

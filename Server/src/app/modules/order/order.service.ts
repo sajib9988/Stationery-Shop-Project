@@ -3,14 +3,13 @@ import { Types } from 'mongoose';
 import User from '../user/user.model';
 import Order from './order.model';
 import { StatusCodes } from 'http-status-codes';
+import { Product } from '../product/product.model';
+import { orderUtils } from './order-utils';
 import QueryBuilder from '../../builder/querybuilder';
 import AppError from '../../utils/AppError';
+import { IUser } from '../auth/auth.interface';
 
-import { IUser } from './../user/user.interface';
-import { orderUtils } from './order-utils';
-import { Product } from '../product/product.model';
-
-// Service to create an order
+// create this service for create a order
 const createOrder = async (
   user: IUser,
   payload: { products: { _id: string; quantity: number }[] },
@@ -50,7 +49,7 @@ const createOrder = async (
     totalPrice,
   });
 
-  // Payment integration
+  // payment integration
   const shurjopayPayload = {
     amount: totalPrice,
     order_id: order._id,
@@ -64,6 +63,7 @@ const createOrder = async (
   };
 
   const payment = await orderUtils.makePaymentAsync(shurjopayPayload);
+  // console.log(payment, 'payment');
   if (payment?.transactionStatus) {
     order = await order.updateOne({
       transaction: {
@@ -75,10 +75,18 @@ const createOrder = async (
 
   return payment.checkout_url;
 };
-
-// Service to get orders
-const getOrders = async (user: IUser, query: Record<string, unknown>) => {
-  const searchableFields = ['model', 'description', 'category', 'brand', 'name'];
+// get orders
+const getOrders = async (
+  user: IUser,
+  query: Record<string, unknown>,
+) => {
+  const searchableFields = [
+    'model',
+    'description',
+    'category',
+    'brand',
+    'name',
+  ];
 
   if (user?.role === 'admin') {
     const orderQuery = new QueryBuilder(
@@ -114,73 +122,74 @@ const getOrders = async (user: IUser, query: Record<string, unknown>) => {
     result,
   };
 };
-
-// Service to verify payment
+// verify payme service
 const verifyPayment = async (order_id: string) => {
   const verifiedPayment = await orderUtils.verifyPaymentAsync(order_id);
   if (verifiedPayment[0]?.customer_order_id) {
-    const findOrder = await Order.findById(verifiedPayment[0]?.customer_order_id);
+    const findOrder = await Order.findById(
+      verifiedPayment[0]?.customer_order_id,
+    );
     for (const item of findOrder?.products as {
       product: Types.ObjectId;
       quantity: number;
     }[]) {
-      const product = await Product.findById(item.product);
-      if (!product || product.quantity < item.quantity) {
-        throw new AppError(
-          StatusCodes.CONFLICT,
-          `Not enough stock for ${product?.name}`,
-        );
+      const bike = await Product.findById(item.product);
+      if (!bike || bike.quantity < item.quantity) {
+        throw new AppError(StatusCodes.CONFLICT,`Not enough stock for ${bike?.name}`);
       }
 
-      // Update product quantity
-      product.quantity -= item.quantity;
-      if (product.quantity === 0) {
-        product.inStock = false; // Mark as out of stock if quantity is zero
+      bike.quantity -= item.quantity;
+      if (bike.quantity === 0) {
+        bike.inStock = false;
       }
 
-      await product.save();
+      await bike.save();
     }
-  }
 
+   
+  }
   if (verifiedPayment.length) {
-    await Order.findOneAndUpdate(
-      {
-        'transaction.id': order_id,
-      },
-      {
-        'transaction.bank_status': verifiedPayment[0].bank_status,
-        'transaction.sp_code': verifiedPayment[0].sp_code,
-        'transaction.sp_message': verifiedPayment[0].sp_message,
-        'transaction.transactionStatus': verifiedPayment[0].transaction_status,
-        'transaction.method': verifiedPayment[0].method,
-        'transaction.date_time': verifiedPayment[0].date_time,
-        status:
-          verifiedPayment[0].bank_status == 'Success'
-            ? 'Paid'
-            : verifiedPayment[0].bank_status == 'Failed'
-            ? 'Pending'
-            : verifiedPayment[0].bank_status == 'Cancel'
-            ? 'Cancelled'
-            : '',
-      },
-      { new: true },
-    );
+      await Order.findOneAndUpdate(
+          {
+              "transaction.id": order_id,
+          },
+          {
+              "transaction.bank_status": verifiedPayment[0].bank_status,
+              "transaction.sp_code": verifiedPayment[0].sp_code,
+              "transaction.sp_message": verifiedPayment[0].sp_message,
+              "transaction.transactionStatus": verifiedPayment[0].transaction_status,
+              "transaction.method": verifiedPayment[0].method,
+              "transaction.date_time": verifiedPayment[0].date_time,
+              status:
+                  verifiedPayment[0].bank_status == "Success"
+                      ? "Paid"
+                      : verifiedPayment[0].bank_status == "Failed"
+                          ? "Pending"
+                          : verifiedPayment[0].bank_status == "Cancel"
+                              ? "Cancelled"
+                              : "",
+          },
+          {new :true}
+      );
+    //  console.log(res,order_id,"res")
   }
 
   return verifiedPayment;
 };
-
-// Service to get total revenue
+// create this service for get total revenue
 const getTotalRevenue = async () => {
   const result = await Order.aggregate([
     {
       $group: {
+        // Grouping by null will aggregate all documents
         _id: null,
+        // Sum the totalPrice field across all orders
         totalRevenue: { $sum: '$totalPrice' },
       },
     },
     {
       $project: {
+        // Include only totalRevenue in the result
         _id: 0,
         totalRevenue: 1,
       },
@@ -192,8 +201,6 @@ const getTotalRevenue = async () => {
 
   return result[0];
 };
-
-// Export all services
 export const orderService = {
   createOrder,
   getTotalRevenue,

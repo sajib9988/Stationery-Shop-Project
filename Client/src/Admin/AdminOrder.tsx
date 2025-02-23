@@ -1,47 +1,39 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "../components/ui/dialog"
-import { useAcceptOrderMutation, useGetAdminOrdersDataQuery } from "../redux/feature/orderManage/orderApi";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "../components/ui/dialog";
+import {
+  useAllOrdersQuery,
+  useVerifyOrderMutation,
+} from "../redux/feature/orderManage/orderApi";
 import Loading from "../pages/Loading";
 import { Button } from "../components/ui/button";
-
-interface Order {
-  _id: string;
-  user: {
-    email: string;
-  };
-  products: {
-    _id: string;
-    name: string;
-    price: number;
-    quantity: number;
-  }[];
-  totalPrice: number;
-  transaction: {
-    id: string;
-  };
-  status: string;
-}
+import { IOrder, IProduct } from "../types/type";
 
 export const AdminOrder = () => {
-  const { data, isLoading } = useGetAdminOrdersDataQuery(undefined);
-  const [verifyOrder] = useAcceptOrderMutation();
+  const { data, isLoading } = useAllOrdersQuery(undefined);
+  const [verifyOrder] = useVerifyOrderMutation();
 
   const [search, setSearch] = useState("");
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<IOrder | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const openDialog = (order: Order) => {
+  const openDialog = (order: IOrder) => {
     setSelectedOrder(order);
     setIsDialogOpen(true);
   };
 
-
-  const filteredData = data?.data?.filter((item: Order) =>
+  const filteredData = data?.data?.filter((item: IOrder) =>
     item._id.toLowerCase().includes(search.toLowerCase())
   );
-  const dataLength = filteredData?.length;
+  const dataLength = filteredData?.length || 0;
 
   const handleVerify = async (orderId: string) => {
     const toastId = toast.loading("Verifying...");
@@ -79,18 +71,24 @@ export const AdminOrder = () => {
             <th className="px-6 py-3">Details</th>
           </tr>
         </thead>
-        {dataLength > 0 && (
+        {dataLength > 0 ? (
           <tbody>
-            {filteredData?.map((item: Order) => (
-              <tr key={item?._id} className="odd:bg-white even:bg-gray-50 border-b border-gray-200">
-                <td className="px-6 py-4">{item?._id}</td>
-                <td className="px-6 py-4">{item?.user?.email}</td>
-                <td className="px-6 py-4">{item?.totalPrice}</td>
-                <td className="px-6 py-4">{item?.transaction?.id}</td>
-                <td className="px-6 py-4">{item?.status}</td>
+            {filteredData?.map((item: IOrder) => (
+              <tr
+                key={item._id}
+                className="odd:bg-white even:bg-gray-50 border-b border-gray-200"
+              >
+                <td className="px-6 py-4">{item._id}</td>
+                <td className="px-6 py-4">{item.user.email}</td>
+                <td className="px-6 py-4">{item.totalPrice}</td>
+                <td className="px-6 py-4">{item.transaction?.id}</td>
+                <td className="px-6 py-4">{item.status}</td>
                 <td className="px-6 py-4">
-                  {item?.status.toLowerCase() === "pending" ? (
-                    <Button className="w-[120px]" onClick={() => handleVerify(item?._id)}>
+                  {item.status.toLowerCase() === "pending" ? (
+                    <Button
+                      className="w-[120px]"
+                      onClick={() => handleVerify(item._id)}
+                    >
                       Verify Order
                     </Button>
                   ) : (
@@ -107,36 +105,52 @@ export const AdminOrder = () => {
               </tr>
             ))}
           </tbody>
+        ) : (
+          <tbody>
+            <tr>
+              <td colSpan={7} className="text-center py-4">
+                No orders found
+              </td>
+            </tr>
+          </tbody>
         )}
       </table>
-      {dataLength === 0 && (
-        <div className="w-full h-[150px] grid place-items-center text-2xl">
-          <p>No orders found</p>
-        </div>
-      )}
 
       {/* Shadcn Dialog for Order Details */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>Order Details</DialogTitle>
-            <DialogDescription>Details of the selected order</DialogDescription>
+            <DialogDescription>
+              Details of the selected order
+            </DialogDescription>
           </DialogHeader>
           {selectedOrder && (
             <div>
-              <p><strong>Order ID:</strong> {selectedOrder._id}</p>
-              <p><strong>User Email:</strong> {selectedOrder.user.email}</p>
-              <p><strong>Total Price:</strong> ${selectedOrder.totalPrice}</p>
-              <p><strong>Transaction ID:</strong> {selectedOrder.transaction.id}</p>
-              <p><strong>Status:</strong> {selectedOrder.status}</p>
+              <p>
+                <strong>Order ID:</strong> {selectedOrder._id}
+              </p>
+              <p>
+                <strong>User Email:</strong> {selectedOrder.user.email}
+              </p>
+              <p>
+                <strong>Total Price:</strong> ${selectedOrder.totalPrice}
+              </p>
+              <p>
+                <strong>Transaction ID:</strong> {selectedOrder.transaction?.id}
+              </p>
+              <p>
+                <strong>Status:</strong> {selectedOrder.status}
+              </p>
               <h3 className="mt-4 text-lg font-bold">Products:</h3>
               <ul className="list-disc ml-5">
-                {selectedOrder.products.map((product) => (
-                  <li key={product._id}>
-                    {product.name} - ${product.price} (x{product.quantity})
-                  </li>
-                ))}
-              </ul>
+  {selectedOrder.products.map(({ product, quantity }) => (
+    <li key={product._id}>
+      {product.name} - ${product.price} (x{quantity})
+    </li>
+  ))}
+</ul>
+
               <div className="flex justify-end mt-4">
                 <DialogClose asChild>
                   <Button className="bg-red-500 hover:bg-red-600">Close</Button>

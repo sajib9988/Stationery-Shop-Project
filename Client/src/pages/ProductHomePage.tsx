@@ -8,7 +8,7 @@ import Loading from "./Loading";
 import { Badge } from "../components/ui/badge";
 import { addToCart } from "../redux/feature/cart/cartSlice";
 
-interface Product {
+export interface IProduct {
   _id: string;
   image: string;
   name: string;
@@ -56,7 +56,7 @@ export default function StationaryProducts() {
 
   // Fetch Data with Filters
   const { data, isLoading } = useGetAllProductsQuery(query);
-  console.log(data);
+  // console.log(data);
   const totalPages = data?.meta?.totalPage || 1;
 
   const handlePageChange = (page: number) => {
@@ -144,7 +144,7 @@ export default function StationaryProducts() {
 
         {/* Product Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {data?.data?.map((product: Product) => (
+          {data?.data?.map((product: IProduct) => (
             <div
               key={product?._id}
               className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-all p-4 border border-gray-200"
