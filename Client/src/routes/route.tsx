@@ -22,6 +22,7 @@ import OrderPage from "../pages/OrderPage";
 import OrderResponse from "../pages/OrderResponse";
 import { ProductTable } from "../Admin/ProductTable";
 import AdminOrder from "../Admin/AdminOrder";
+import { Product } from "../components/product/Product";
 
 
 
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
         {  
             path: "/response",
             element: <OrderResponse></OrderResponse>
+        },
+        {  
+            path: "/products",
+            element: <Product></Product>
         },
         {  
           path: "/details/:id",
