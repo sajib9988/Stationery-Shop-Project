@@ -97,11 +97,20 @@ export default function StationaryProducts() {
             value={filters.category}
             onChange={handleFilterChange}
           >
-            <option value="">All Categories</option>
-            <option value="Pen">Pen</option>
-            <option value="Notebook">Notebook</option>
-            <option value="Art Supplies">Art Supplies</option>
-            <option value="Office Essentials">Office Essentials</option>
+           <option value="">All Categories</option>
+<option value="Pen">Pen</option>
+<option value="Pencil">Pencil</option>
+<option value="Notebook">Notebook</option>
+<option value="Paper">Paper</option>
+<option value="Protractor">Protractor</option>
+<option value="Eraser">Eraser</option>
+<option value="Sharpener">Sharpener</option>
+<option value="Ruler">Ruler</option>
+<option value="Marker">Marker</option>
+<option value="Glue">Glue</option>
+<option value="Office Supplies">Office Supplies</option>
+<option value="Correction">Correction</option>
+
           </select>
 
           <select
@@ -116,30 +125,37 @@ export default function StationaryProducts() {
           </select>
 
           <div className="flex gap-2 items-center">
-            <input
-              type="number"
-              name="minPrice"
-              placeholder="Min Price"
-              className=" ml-3 px-4 py-3 font-[13px] border border-gray-300 rounded-md w-24 shadow-sm focus:ring-2 focus:ring-blue-400 pr-10 focus:outline-none"
-              value={filters.minPrice}
-              onChange={handleFilterChange}
-            />
-            <span> - </span>
-            <input
-              type="number"
-              name="maxPrice"
-              placeholder="Max Price"
-              className="ml-3 px-4 py-3 border border-gray-300 rounded-md w-24 shadow-sm"
-              value={filters.maxPrice}
-              onChange={handleFilterChange}
-            />
-            <button
-              onClick={() => setCurrentPage(1)} // Optional: Reset page to 1 when applying price filter
-              className="bg-blue-600 text-white px-4 py-3  rounded-md hover:bg-blue-700"
-            >
-              Filter by Price
-            </button>
-          </div>
+  <input
+    type="number"
+    name="minPrice"
+    placeholder="Min Price"
+    className="ml-3 px-4 py-3 text-[16px] border border-gray-300 rounded-md w-36 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+    value={filters.minPrice}
+    onChange={handleFilterChange}
+  />
+  <span className="text-[16px]"> - </span>
+  <input
+    type="number"
+    name="maxPrice"
+    placeholder="Max Price"
+    className="ml-3 px-4 py-3 text-[16px] border border-gray-300 rounded-md w-36 shadow-sm"
+    value={filters.maxPrice}
+    onChange={handleFilterChange}
+  />
+  <button
+    onClick={() => setCurrentPage(1)}
+    className="bg-blue-600 text-white px-4 py-3 rounded-md hover:bg-blue-700 text-[16px]"
+  >
+    Filter by Price
+  </button>
+</div>
+
+
+       
+       
+       
+       
+       
         </div>
 
         {/* Product Cards */}
