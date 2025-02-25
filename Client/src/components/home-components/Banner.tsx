@@ -1,19 +1,22 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-
+import practractor from "../../assets/image/protractors.jpg"
+import notebook from "../../assets/image/notebook.jpg"
+import pen from "../../assets/image/pen-and-pencils.jpg"
 const bannerSlides = [
   {
-    image: "https://i.ibb.co/wZsBzKz/Protractors.jpg",
+    image: practractor,
     offer: "5% OFF",
     product: "Protractors",
   },
+
   {
-    image: "https://i.ibb.co.com/XZ95b6yz/notebook.jpg",
+    image: notebook,
     offer: "10% OFF",
     product: "Notebooks",
   },
   {
-    image: "https://i.ibb.co.com/JWZh2Y8Z/School-pens-and-pencils-set.jpg",
+    image: pen,
     offer: "Buy 2 Get 1 Free",
     product: "Pens",
   },
