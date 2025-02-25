@@ -23,6 +23,7 @@ import OrderResponse from "../pages/OrderResponse";
 import { ProductTable } from "../Admin/ProductTable";
 import AdminOrder from "../Admin/AdminOrder";
 import { Product } from "../components/product/Product";
+import PrivetUserRoute from "../utils/PrivetUserRoute";
 
 
 
@@ -49,15 +50,15 @@ const router = createBrowserRouter([
         },
         {  
             path: "/cart",
-            element: <Cart></Cart>
+            element: <PrivetUserRoute><Cart></Cart> </PrivetUserRoute>
         },
         {  
             path: "/order",
-            element: <OrderPage></OrderPage>
+            element:<PrivetUserRoute> <OrderPage></OrderPage> </PrivetUserRoute>
         },
         {  
             path: "/response",
-            element: <OrderResponse></OrderResponse>
+            element: <PrivetUserRoute><OrderResponse></OrderResponse> </PrivetUserRoute>
         },
         {  
             path: "/products",

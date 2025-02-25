@@ -1,9 +1,11 @@
-import { selectCurrentToken } from "@/redux/features/auth/authSlice";
-import { useAppSelector } from "@/redux/hooks";
+
+
 import { ReactNode } from "react";
 import { verifyToken } from "./verifyToken";
 import { Navigate, useLocation } from "react-router-dom";
-import { TUser } from "@/types/types";
+import { TUser, useCurrentToken } from "../redux/feature/authManage/authSlice";
+import { useAppSelector } from "../redux/hook";
+
 
 const PrivetUserRoute = ({
   children,
@@ -11,7 +13,7 @@ const PrivetUserRoute = ({
 }: {
   children: ReactNode;
 }) => {
-  const token = useAppSelector(selectCurrentToken);
+  const token = useAppSelector(useCurrentToken);
   const location = useLocation();
 
   let user;
