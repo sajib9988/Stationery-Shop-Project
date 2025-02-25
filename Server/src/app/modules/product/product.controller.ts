@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { ProductService } from "./product.service";
 import catchAsync from "../../utils/catchAsync";
 import { StatusCodes } from "http-status-codes";
+import mongoose from "mongoose";
+import AppError from "../../utils/AppError";
 
 const addProduct = catchAsync(async (req: Request, res: Response) => {
   const product = await ProductService.addProduct(req.body);
@@ -37,6 +39,7 @@ const getProductById = catchAsync(async (req: Request, res: Response) => {
 
 const updateProduct = catchAsync(async (req: Request, res: Response) => {
   const updatedProduct = await ProductService.updateProduct(req.params.id, req.body);
+  console.log("Updated Product:", updatedProduct);
   res.status(StatusCodes.OK).json({
     success: true,
     message: "Product updated successfully",
@@ -44,6 +47,7 @@ const updateProduct = catchAsync(async (req: Request, res: Response) => {
     data: updatedProduct,
   });
 });
+
 
 const deleteProduct = catchAsync(async (req: Request, res: Response) => {
   await ProductService.deleteProduct(req.params.id);

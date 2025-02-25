@@ -8,7 +8,7 @@ import { z } from "zod";
 import { useLoginMutation } from "../../redux/feature/authManage/authApi"
 import { setUser, useCurrentUser } from "../../redux/feature/authManage/authSlice"
 
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
 
 import { toast } from "react-toastify"
@@ -121,9 +121,11 @@ const Login: React.FC = () => {
           </form>
         </CardContent>
         <CardFooter>
-          <Button variant="link" className="w-full">
-            Don't have an account? Register
-          </Button>
+          <Link to="/register" className="w-full">
+            <Button variant="link" className="w-full">
+              Don't have an account? Register
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
     </div>

@@ -2,6 +2,7 @@ import { Product } from "./product.model";
 import { IProduct } from "./product.interface";
 import AppError from "../../utils/AppError";
 import httpStatus from "http-status";
+import mongoose from "mongoose";
 
 const addProduct = async (productData: IProduct) => {
   return await Product.create(productData);
@@ -50,6 +51,14 @@ const updateProduct = async (productId: string, productData: IProduct) => {
   }
   return updatedProduct;
 };
+
+
+
+
+
+
+
+
 
 const deleteProduct = async (productId: string) => {
   const deletedProduct = await Product.findByIdAndDelete(productId);

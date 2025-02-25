@@ -100,7 +100,13 @@ const EditProductDetails = ({ product }: { product: IProduct }) => {
       const updateData = { ...data, image: imageUrl };
       console.log("Submitting updated data:", updateData);
 
-      const res = await updateProduct({ data: updateData, id: product._id }).unwrap();
+      console.log("Product ID:", product._id);
+
+      // const res = await updateProduct({ data: updateData, id: product._id }).unwrap();
+
+      const res = await updateProduct({ productId: product._id, productData: updateData }).unwrap();
+
+      console.log("Update Response:", res);
 
       toast.success("Product updated successfully!", { id: toastId });
       reset();
@@ -123,7 +129,7 @@ const EditProductDetails = ({ product }: { product: IProduct }) => {
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 mt-4 mb-2">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <div onClick={() => setOpen(!open)}>
@@ -131,52 +137,56 @@ const EditProductDetails = ({ product }: { product: IProduct }) => {
           </div>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
-          <DialogTitle>Edit Product</DialogTitle>
+          <DialogTitle className="flex justify-center font-bold text-green-600 border-b-2 border-green">Edit Product</DialogTitle>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-w-md mx-auto w-full">
-              <CustomInputField name="name" label="Product Name" placeholder="Enter product name" type="text" control={form.control} />
-              <CustomInputField name="model" label="Model" placeholder="Enter product model" type="text" control={form.control} />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-w-md mx-auto w-full">
+        <div className="grid grid-cols-2 gap-4">
+          <CustomInputField name="name" label="Product Name" placeholder="Enter product name" type="text" control={form.control} />
+          <CustomInputField name="model" label="Model" placeholder="Enter product model" type="text" control={form.control} />
+        </div>
 
-              <Label>Product Image</Label>
-              <Input ref={fileInputRef} type="file" accept="image/*" onChange={(e) => e.target.files?.[0] && handleImageChange(e.target.files[0])} />
+        <Label>Product Image</Label>
+        <Input ref={fileInputRef} type="file" accept="image/*" onChange={(e) => e.target.files?.[0] && handleImageChange(e.target.files[0])} />
 
-              <FormField control={form.control} name="description" render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Textarea placeholder="Enter description" {...field} />
-                  </FormControl>
-                </FormItem>
-              )} />
+        <FormField control={form.control} name="description" render={({ field }) => (
+          <FormItem>
+            <FormLabel>Description</FormLabel>
+            <FormControl>
+              <Textarea placeholder="Enter description" {...field} />
+            </FormControl>
+          </FormItem>
+        )} />
 
-              <FormField control={form.control} name="category" render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category</FormLabel>
-                  <FormControl>
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          {["Pen", "Pencil", "Notebook", "Paper", "Protractor", "Eraser", "Sharpener", "Ruler", "Marker", "Glue"].map((cat) => (
-                            <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                </FormItem>
-              )} />
+        <FormField control={form.control} name="category" render={({ field }) => (
+          <FormItem>
+            <FormLabel>Category</FormLabel>
+            <FormControl>
+              <Select onValueChange={field.onChange} value={field.value}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {["Pen", "Pencil", "Notebook", "Paper", "Protractor", "Eraser", "Sharpener", "Ruler", "Marker", "Glue"].map((cat) => (
+                      <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </FormControl>
+          </FormItem>
+        )} />
 
-              <CustomInputField name="price" label="Price" placeholder="Enter price" type="number" control={form.control} />
-              <CustomInputField name="quantity" label="Quantity" placeholder="Enter quantity" type="number" control={form.control} />
+        <div className="grid grid-cols-2 gap-4">
+          <CustomInputField name="price" label="Price" placeholder="Enter price" type="number" control={form.control} />
+          <CustomInputField name="quantity" label="Quantity" placeholder="Enter quantity" type="number" control={form.control} />
+        </div>
 
-              <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2">
-                Update Product
-              </Button>
-            </form>
-          </Form>
+        <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2">
+          Update Product
+        </Button>
+      </form>
+    </Form>
         </DialogContent>
       </Dialog>
 

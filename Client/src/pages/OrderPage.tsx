@@ -126,7 +126,7 @@ const OrderPage = () => {
               <span className="text-2xl text-red-600">Tk.{cartData?.totalPrice}</span>
             </div>
             {profileComplete && cartData?.items.length > 0 && (
-              <Button className="w-full text-white bg-primary-red mt-4" onClick={handleOrderCreate}>Order</Button>
+              <Button className="w-full text-center font-bold text-white bg-green-700 hover:bg-green-300 mt-4" onClick={handleOrderCreate}>Order</Button>
             )}
           </div>
           <div className="w-full text-center mt-3">

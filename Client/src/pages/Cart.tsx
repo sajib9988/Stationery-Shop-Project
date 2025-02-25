@@ -105,7 +105,7 @@ const Cart = () => {
           </div>
           {cartData?.items.length > 0 && (
             <Button
-              className="w-full text-white bg-primary-red"
+              className="w-full text-center bg-green-600 hover:bg-emerald-300"
               onClick={() => navigate("/order")}
             >
               Checkout
