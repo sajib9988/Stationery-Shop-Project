@@ -1,4 +1,4 @@
-                                                 🛍️ Stationery Shop Project
+                                  🛍️ Stationery Shop Project
 This is a full-stack Stationery Shop web application built with React.js, Tailwind CSS, TypeScript, Redux, Express.js, MongoDB, and JWT authentication.
 
 🚀 Features
@@ -23,6 +23,7 @@ Tailwind CSS
 TypeScript
 Redux Toolkit
 React Router
+
 📌 Backend
 Node.js & Express.js
 MongoDB & Mongoose
@@ -34,7 +35,9 @@ Clone the repository
 bash
 Copy
 Edit
+
 git clone https://github.com/sajib9988/Stationery-Shop-Project.git
+
 cd Stationery-Shop-Project
 Install dependencies
 🔹 Frontend
@@ -67,39 +70,9 @@ Start the development server
 bash
 Copy
 Edit
-pnpm dev
+npm dev
 🔹 Backend
 bash
 Copy
 Edit
-pnpm start
-📌 API Documentation
-🔹 Authentication
-Method	Endpoint	Description	Protected
-POST	/api/auth/register	Register a new user	❌
-POST	/api/auth/login	Login user and return JWT	❌
-GET	/api/auth/profile	Get user profile	✅
-🔹 Products
-Method	Endpoint	Description	Protected
-GET	/api/products	Get all products	❌
-GET	/api/products/:id	Get product details by ID	❌
-POST	/api/products	Create a new product	✅ (Admin)
-PUT	/api/products/:id	Update product details	✅ (Admin)
-DELETE	/api/products/:id	Delete a product	✅ (Admin)
-🔹 Cart
-Method	Endpoint	Description	Protected
-GET	/api/cart	Get user cart	✅
-POST	/api/cart/add	Add item to cart	✅
-DELETE	/api/cart/remove/:id	Remove item from cart	✅
-🔹 Orders
-Method	Endpoint	Description	Protected
-POST	/api/orders	Place an order	✅
-GET	/api/orders	Get user orders	✅
-📸 Screenshots
-(You can add screenshots here)
-
-👨‍💻 Contributing
-Pull requests are welcome! If you'd like to contribute, feel free to fork the repo and submit a PR.
-
-📜 License
-This project is open-source and available under the MIT License.
+npm start
