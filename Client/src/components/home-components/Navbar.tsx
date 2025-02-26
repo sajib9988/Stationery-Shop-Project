@@ -45,7 +45,7 @@ const Navbar: React.FC = () => {
   if (isDashboardRoute) return null;
 
   return (
-    <nav className="bg-gray-800 text-white shadow-lg">
+    <nav className="bg-gray-800 text-white shadow-lg rounded-lg mt-2">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo - Left */}
