@@ -12,9 +12,10 @@ const app = express()
 
 // Middleware - order is important
 app.use(cors({ 
-  origin: 'http://localhost:5173',
+  origin: ['http://localhost:5173',"https://stationery-shop-project-phi.vercel.app"],
   credentials: true 
 }));
+
 app.use(cookieParser());
 app.use(express.json());
 
