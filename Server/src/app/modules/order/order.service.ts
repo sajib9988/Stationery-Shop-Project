@@ -130,7 +130,7 @@ const verifyPayment = async (order_id: string) => {
     const findOrder = await Order.findById(
       verifiedPayment[0]?.customer_order_id,
     );
-    console.log("finf", findOrder.products)
+    // console.log("finf", findOrder.products)
     for (const item of findOrder?.products as {
       product: Types.ObjectId;
       quantity: number;

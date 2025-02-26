@@ -2,23 +2,25 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "../components/ui/card";
 import { Star } from "lucide-react";
-
+import woman1 from "../assets/image/woman1.jpg";
+import woman2 from "../assets/image/woman2.jpg";
+import man from "../assets/image/man.jpg";
 const reviews = [
   {
     name: "Ekta",
-    image: "https://via.placeholder.com/100",
+    image: woman1,
     rating: 4.5,
     review: "This is a great stationery shop! They have all kinds of supplies, and the quality is excellent.",
   },
   {
-    name: "Rahul",
-    image: "https://via.placeholder.com/100",
+    name: "Moni",
+    image: woman2,
     rating: 5,
     review: "Best stationery store in town. Affordable prices and amazing collection!",
   },
   {
-    name: "Neha",
-    image: "https://via.placeholder.com/100",
+    name: "David",
+    image: man,
     rating: 4,
     review: "Good collection of art supplies. The staff is very helpful.",
   },

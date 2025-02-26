@@ -20,6 +20,7 @@ const AdminOrder = () => {
   );
   console.log("filteredData", filteredData)
   const dataLength = filteredData?.length;
+
   const handleVerify = async (orderId: string) => {
     const toastId = toast.loading("verifying...");
     const res = await verifyOrder({ order_id: orderId });
@@ -29,6 +30,7 @@ const AdminOrder = () => {
       toast.error("Failed to verify order.", { id: toastId });
     }
   };
+  
   if (isLoading) return <Loading />;
   console.log(data, "all order");
   return (
