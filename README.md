@@ -1,8 +1,8 @@
 # Stationery Shop Project
 
-### [Client Live Link]()
+### [Client Live Link](https://stationery-shop-project-phi.vercel.app/)
 
-### [Backend Live Link]()
+### [Backend Live Link](https://stationery-shop-project-server.vercel.app/)
 
 ## Project Overview
 
@@ -119,7 +119,7 @@
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/mdrakibmia99/bike-store.git
+   git clone https://github.com/sajib9988/Stationery-Shop-Project.git
 
 2. Navigate to the backend directory:
    
@@ -211,4 +211,4 @@ This project is licensed under the MIT License.
 
 ## Contact
 
-For any queries, contact us at **[sajib.biswas9988@gmail.com](mailto\:support@royalknightbikes.com)**.
+For any queries, contact us at **[sajib.biswas9988@gmail.com](mailto\:sajib.biswas9988@gmail.com)**.
