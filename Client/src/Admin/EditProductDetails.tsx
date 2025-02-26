@@ -30,7 +30,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
-import { useUpdateProductMutation } from "../redux/feature/productManage/productApi";
+import { useDeleteProductMutation, useUpdateProductMutation } from "../redux/feature/productManage/productApi";
 import CustomInputField from "../components/ui/CustomInputField";
 import { Label } from "../components/ui/label";
 import { IProduct } from "../types/type";
@@ -51,7 +51,7 @@ const formSchema = z.object({
 
 const EditProductDetails = ({ product }: { product: IProduct }) => {
   const [updateProduct] = useUpdateProductMutation();
-  // const [deleteProduct] = useDeleteProductMutation();
+  const [deleteProduct] = useDeleteProductMutation();
   const [open, setOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -118,10 +118,10 @@ const EditProductDetails = ({ product }: { product: IProduct }) => {
     }
   };
 
-  const handleDeleteProduct = async () => {
+  const handleDeleteProduct = async (id:string) => {
     const toastId = toast.loading("Deleting product...");
     try {
-      // const res = await deleteProduct(id).unwrap();
+       await deleteProduct(id);
       toast.success("Product deleted successfully!", { id: toastId });
     } catch (error) {
       toast.error("Failed to delete product.", { id: toastId });
@@ -190,7 +190,7 @@ const EditProductDetails = ({ product }: { product: IProduct }) => {
         </DialogContent>
       </Dialog>
 
-      <FaTrash className="text-red-500 cursor-pointer hover:scale-110 w-5 h-5" onClick={() => handleDeleteProduct()} />
+      <FaTrash className="text-red-500 cursor-pointer hover:scale-110 w-5 h-5" onClick={() => handleDeleteProduct( product?._id)} />
     </div>
   );
 };
