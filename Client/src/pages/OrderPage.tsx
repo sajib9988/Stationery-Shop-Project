@@ -56,8 +56,13 @@ const OrderPage = () => {
       }
     }
 
-    if (isError) toast.error(JSON.stringify(error), { id: toastId });
+    if (isError)
+      
+       {toast.error(JSON.stringify(error), { id: toastId })
+        console.error("Order create failed", error)
+      };
   }, [error, isError, isSuccess, orderData, orderLoading]);
+
 
   const handleOrderCreate = async () => {
     const formattedData = {
