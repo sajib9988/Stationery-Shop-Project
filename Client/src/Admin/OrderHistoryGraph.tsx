@@ -4,29 +4,31 @@ import { Button } from "../components/ui/button";
 
 
 import { Link } from "react-router-dom";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { OrderProductDetails } from "../User/OrderProductDetails";
 import Loading from "../pages/Loading";
-import { useAllOrdersQuery, useVerifyOrderMutation } from "../redux/feature/orderManage/orderApi";
+import { useAllOrdersQuery  } from "../redux/feature/orderManage/orderApi";
 
 
 const OrderHistoryGraph = () => {
   const { data, isLoading } = useAllOrdersQuery(undefined);
-  const [verifyOrder] = useVerifyOrderMutation();
+  // const [verifyOrder] = useVerifyOrderMutation();
 
 
   const dataLength = data?.data?.length;
-  const handleVerify = async (orderId: string) => {
-    const toastId = toast.loading("verifying...");
-    const res = await verifyOrder({ order_id: orderId });
-    if (res?.data) {
-      toast.success("Order verified successfully.", { id: toastId });
-    } else {
-      toast.error("Failed to verify order.", { id: toastId });
-    }
-  };
+
+  // const handleVerify = async (orderId: string) => {
+  //   const toastId = toast.loading("verifying...");
+  //   const res = await verifyOrder({ order_id: orderId });
+  //   if (res?.data) {
+  //     toast.success("Order verified successfully.", { id: toastId });
+  //   } else {
+  //     toast.error("Failed to verify order.", { id: toastId });
+  //   }
+  // };
   if (isLoading) return <Loading />;
   console.log(data, "all order");
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
         <h3 className="text-5xl text-center font-semibold py-3  my-5">Order History</h3>

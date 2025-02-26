@@ -1,14 +1,14 @@
 
 import { useState } from "react";
 import EditProductDetails from "./EditProductDetails";
-import { FaTimes, FaCheck, FaTrash } from "react-icons/fa"; 
-import { toast } from "react-toastify";
+import { FaTimes, FaCheck } from "react-icons/fa"; 
+// import { toast } from "react-toastify";
 import Loading from "../pages/Loading";
-import { useDeleteProductMutation, useGetAllProductsQuery } from "../redux/feature/productManage/productApi";
+import {  useGetAllProductsQuery } from "../redux/feature/productManage/productApi";
 
 export function ProductTable() {
   const { isLoading, data } = useGetAllProductsQuery(undefined);
-  const [deleteProduct] = useDeleteProductMutation(); 
+  // const [deleteProduct] = useDeleteProductMutation(); 
   
   const [search, setSearch] = useState("");
 
@@ -19,14 +19,14 @@ export function ProductTable() {
   if (isLoading) return <Loading />;
 
   // প্রোডাক্ট ডিলিট হ্যান্ডলার
-  const handleDelete = async (id: string) => {
-    try {
-      await deleteProduct(id);
-      toast.success("Product deleted successfully!");
-    } catch (error) {
-      toast.error("Failed to delete product.");
-    }
-  };
+  // const handleDelete = async (id: string) => {
+  //   try {
+  //     await deleteProduct(id);
+  //     toast.success("Product deleted successfully!");
+  //   } catch (error) {
+  //     toast.error("Failed to delete product.");
+  //   }
+  // };
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
