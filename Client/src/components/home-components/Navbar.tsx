@@ -32,8 +32,8 @@ const Navbar: React.FC = () => {
 
   const dashboardLink = user?.role === "admin" ? "/admin/dashboard" : "/user/dashboard";
 
-  const getLinkClass = (path: string) =>
-    `block w-full text-left px-3 py-2 rounded-md font-medium transition-all duration-200 ${
+  const getLinkClass = (path: string) => `
+    block w-full text-left px-3 py-2 rounded-md font-medium transition-all duration-200 ${
       location.pathname === path
         ? "text-green-400 border-b-2 border-green-400"
         : "text-white hover:bg-gray-700 hover:border-b-2 hover:border-green-400"
@@ -45,8 +45,8 @@ const Navbar: React.FC = () => {
   if (isDashboardRoute) return null;
 
   return (
-    <nav className="bg-gray-800 text-white shadow-lg rounded-lg mt-2">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="fixed top-0 left-0 right-0 mx-4 lg:mx-[70px] rounded-lg mt-2 bg-gray-900 text-white shadow-lg z-50">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo - Left */}
           <div className="flex-shrink-0">
@@ -55,9 +55,9 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
 
-          {/* Navigation Items - Center */}
-          <div className="flex-1 flex justify-center items-center">
-            <div className="hidden md:flex items-center space-x-8">
+          {/* Desktop Navigation Items - Hidden on Mobile */}
+          <div className="hidden md:flex flex-1 justify-center items-center">
+            <div className="flex items-center space-x-8">
               <Link to="/" className={getLinkClass("/")}>Home</Link>
               <Link to="/products" className={getLinkClass("/products")}>Products</Link>
               <Link to="/about" className={getLinkClass("/about")}>About</Link>
@@ -69,7 +69,7 @@ const Navbar: React.FC = () => {
             </div>
           </div>
 
-          {/* Logout & Cart - Right */}
+          {/* Desktop Logout & Cart - Hidden on Mobile */}
           <div className="hidden md:flex items-center space-x-4">
             {user ? (
               <button
@@ -94,12 +94,10 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button onClick={toggleMenu} className="p-2">
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
-          </div>
+          {/* Mobile Menu Button - Always visible on mobile */}
+          <button onClick={toggleMenu} className="p-2 md:hidden">
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
       </div>
 

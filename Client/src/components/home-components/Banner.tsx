@@ -48,7 +48,7 @@ export default function Banner() {
   }, []);
 
   return (
-    <div className="w-full  mx-auto border-blue-600 mt-4 sm:px-6 lg:px-1 py-8 relative">
+    <div className="w-full  mx-auto border-blue-600 mt-12 sm:px-6 lg:px-1 py-8 relative">
       <div className="relative h-[250px] sm:h-[350px] md:h-[450px] overflow-hidden rounded-lg">
         {bannerSlides.map((slide, index) => (
           <motion.div
