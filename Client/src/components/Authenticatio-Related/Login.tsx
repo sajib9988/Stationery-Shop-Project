@@ -53,7 +53,7 @@ const Login: React.FC = () => {
   const onSubmit =async (values:z.infer<typeof formSchema>) => {
     try {
       const res = await login(values).unwrap()
-      console.log("login res",res)
+      // console.log("login res",res)
 
       // Decode the token using jwt-decode
       const decodedToken = jwtDecode<CustomJwtPayload>(res.data.accessToken);
@@ -67,14 +67,14 @@ const Login: React.FC = () => {
         imageUrl: decodedToken.imageUrl || '',
       };
 
-      console.log("user login",user)
+      // console.log("user login",user)
       if(!user){
         throw new Error("Invalid token")
       }
       dispatch(setUser({
         user, token: res.data.accessToken
       }))
-      console.log('token',res.data.accessToken)
+      // console.log('token',res.data.accessToken)
       toast.success("Login successful")
       navigate(location?.state|| "/",{replace:true});
 

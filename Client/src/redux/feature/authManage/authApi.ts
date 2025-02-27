@@ -13,7 +13,7 @@ const authApi = baseApi.injectEndpoints({
     }),
     signUp: builder.mutation({
       query: (userInfo) => (
-      console.log("userInfo",userInfo),
+      // console.log("userInfo",userInfo),
         {
 
         url: "/auth/register",

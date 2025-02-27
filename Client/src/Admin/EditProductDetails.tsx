@@ -93,14 +93,14 @@ const EditProductDetails = ({ product }: { product: IProduct }) => {
     try {
       let imageUrl = data.image;
       if (image) {
-        console.log("Uploading new image...");
+        // console.log("Uploading new image...");
         imageUrl = await uploadImageToCloudinary(image);
       }
 
       const updateData = { ...data, image: imageUrl };
-      console.log("Submitting updated data:", updateData);
+      // console.log("Submitting updated data:", updateData);
 
-      console.log("Product ID:", product._id);
+      // console.log("Product ID:", product._id);
 
       // const res = await updateProduct({ data: updateData, id: product._id }).unwrap();
 

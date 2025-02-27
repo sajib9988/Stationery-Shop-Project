@@ -10,7 +10,7 @@ import Loading from "../pages/Loading";
 
 const AdminOrder = () => {
   const { data, isLoading } = useAllOrdersQuery(undefined);
-  console.log("details", data)
+  // console.log("details", data)
   const [verifyOrder] = useVerifyOrderMutation();
 
   const [search, setSearch] = useState("");
@@ -18,7 +18,7 @@ const AdminOrder = () => {
   const filteredData = data?.data?.filter((item) =>
     item._id.toLowerCase().includes(search.toLowerCase())
   );
-  console.log("filteredData", filteredData)
+  // console.log("filteredData", filteredData)
   const dataLength = filteredData?.length;
 
   const handleVerify = async (orderId: string) => {

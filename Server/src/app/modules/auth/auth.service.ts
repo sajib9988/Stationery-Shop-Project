@@ -140,7 +140,7 @@ const updatePassword = async (
   userData: JwtPayload, 
   payload: { oldPassword: string; newPassword: string }
 ) => {
-  console.log("🔑 User Data:",payload,  userData); // Debug log
+  // console.log("🔑 User Data:",payload,  userData); // Debug log
 
   const { userId } = userData;
   if (!userId) {
@@ -156,8 +156,7 @@ const updatePassword = async (
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "User not found");
   }
-  console.log("user.password",payload,
-    user)
+  // console.log("user.password",payload,  user)
   const isPasswordMatched = await bcrypt.compare(payload.oldPassword, user.password);
   if (!isPasswordMatched) {
     throw new AppError(httpStatus.FORBIDDEN, "Please enter current password correctly");
@@ -170,7 +169,7 @@ const updatePassword = async (
         });
   
 
-  console.log(`✅ Password updated for user: ${user.email}`); // Debug log
+  // console.log(`✅ Password updated for user: ${user.email}`); // Debug log
 };
 
 

@@ -22,7 +22,7 @@ const login = catchAsync(async (req: Request, res: Response) => {
 });
 
 const register = catchAsync(async (req: Request, res: Response) => {
-  console.log("req.body",req.body)
+  // console.log("req.body",req.body)
   const result = await AuthService.register(req.body);
   sendResponse(res, {
     statusCode: httpStatus.CREATED,

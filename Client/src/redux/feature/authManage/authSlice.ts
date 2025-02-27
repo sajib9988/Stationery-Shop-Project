@@ -25,10 +25,10 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<{ user: TUser | null; token: string }>) => {
-      console.log('store token', action.payload.user);
+      // console.log('store token', action.payload.user);
       state.user = action.payload.user;
       state.token = action.payload.token;
-      console.log('Token set Redux:', state.token);
+      // console.log('Token set Redux:', state.token);
     },
     logout: (state) => {
       state.token = null; 

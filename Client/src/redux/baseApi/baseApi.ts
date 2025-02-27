@@ -24,7 +24,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   // console.log("🚀 API Response Before Refresh:", result);
 
   if (result?.error?.status === 401) {
-    console.log("🔄 Access Token Expired! Refreshing...");
+    // console.log("🔄 Access Token Expired! Refreshing...");
 
     const res = await fetch("https://stationery-shop-project-server.vercel.app/api/auth/refresh-token", {
       method: "POST",

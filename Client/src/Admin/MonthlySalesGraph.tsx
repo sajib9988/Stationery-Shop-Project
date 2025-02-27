@@ -14,7 +14,7 @@ export function MonthlySalesGraph() {
   // API থেকে রেভিনিউ ডাটা আনছি
   const { data, isLoading, error } = useRevenueQuery(undefined);
 
-  console.log("Revenue Data:", data); // কনসোলে ডাটা চেক করুন
+  // console.log("Revenue Data:", data); // কনসোলে ডাটা চেক করুন
 
   // লোডিং হলে লোডিং মেসেজ দেখাবে
   if (isLoading) {

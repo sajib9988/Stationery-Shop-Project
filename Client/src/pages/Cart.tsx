@@ -8,7 +8,7 @@ import { Button } from "../components/ui/button";
 
 const Cart = () => {
   const cartData = useAppSelector((state) => state.cart);
-  console.log(cartData); 
+  // console.log(cartData); 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   return (

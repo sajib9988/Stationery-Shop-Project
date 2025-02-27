@@ -39,7 +39,7 @@ const getProductById = catchAsync(async (req: Request, res: Response) => {
 
 const updateProduct = catchAsync(async (req: Request, res: Response) => {
   const updatedProduct = await ProductService.updateProduct(req.params.id, req.body);
-  console.log("Updated Product:", updatedProduct);
+  // console.log("Updated Product:", updatedProduct);
   res.status(StatusCodes.OK).json({
     success: true,
     message: "Product updated successfully",

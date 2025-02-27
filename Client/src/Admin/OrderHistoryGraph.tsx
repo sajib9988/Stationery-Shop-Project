@@ -27,7 +27,7 @@ const OrderHistoryGraph = () => {
   //   }
   // };
   if (isLoading) return <Loading />;
-  console.log(data, "all order");
+  // console.log(data, "all order");
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">

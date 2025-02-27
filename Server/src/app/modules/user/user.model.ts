@@ -62,7 +62,7 @@ userSchema.pre('save', async function (next) {
       this.password,
     
     );
-  console.log("model",this.password);
+  // console.log("model",this.password);
     next();
   });
 
