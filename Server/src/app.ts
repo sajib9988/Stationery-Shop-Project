@@ -11,13 +11,13 @@ import orderRoutes from './app/modules/order/order.route'
 const app = express()
 
 // Middleware - order is important
-// app.use(cors({ 
-//   origin: ['https://stationery-shop-project-phi.vercel.app','http://localhost:5173'],
-//   credentials: true 
-// }));
+app.use(cors({ 
+  origin: ['https://stationery-shop-project-phi.vercel.app','http://localhost:5173'],
+  credentials: true 
+}));
 
 
-app.use(cors({ origin: ['http://localhost:5173','https://stationery-shop-project-phi.vercel.app'],credentials: true,  allowedHeaders: ['Content-Type', 'Authorization'], }));
+
 app.use(cookieParser());
 app.use(express.json());
 
