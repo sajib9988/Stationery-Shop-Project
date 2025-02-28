@@ -1,13 +1,12 @@
 import { useState, useMemo } from "react";
 import { FieldValues } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { BiCart } from "react-icons/bi";
+import { BiCart, BiSearch } from "react-icons/bi"; // Added BiSearch for the search icon
 import { useAppDispatch } from "../redux/hook";
 import { useGetAllProductsQuery } from "../redux/feature/productManage/productApi";
 import Loading from "./Loading";
 import { Badge } from "../components/ui/badge";
 import { addToCart } from "../redux/feature/cart/cartSlice";
-
 
 export interface IProduct {
   _id: string;
@@ -24,16 +23,27 @@ export interface IProduct {
 
 export default function StationaryProducts() {
   const dispatch = useAppDispatch();
-  const [filters, setFilters] = useState({ searchTerm: "", category: "", inStock: "", minPrice: "", maxPrice: "" });
-  const [currentPage, setCurrentPage] = useState(1);
-  const limit = 8;
 
+  // Filter State
+  const [filters, setFilters] = useState({
+    searchTerm: "",
+    category: "",
+    inStock: "",
+    minPrice: "",
+    maxPrice: "",
+  });
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const limit = 8; // Items per page
+
+  // Handle filter changes
   const handleFilterChange = (e: FieldValues) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
-    setCurrentPage(1);
+    setCurrentPage(1); // Reset to first page on filter change
   };
 
+  // Construct API Query Object
   const query = useMemo(() => {
     const params: Record<string, string> = { page: currentPage.toString(), limit: limit.toString() };
     if (filters.searchTerm) params.searchTerm = filters.searchTerm;
@@ -44,7 +54,9 @@ export default function StationaryProducts() {
     return params;
   }, [filters, currentPage]);
 
+  // Fetch Data with Filters
   const { data, isLoading } = useGetAllProductsQuery(query);
+  // console.log(data);
   const totalPages = data?.meta?.totalPage || 1;
 
   const handlePageChange = (page: number) => {
@@ -63,43 +75,53 @@ export default function StationaryProducts() {
         <h1 className="text-4xl font-bold py-6 text-[#2c3e50] text-center">Stationary Products</h1>
 
         {/* Search and Filters */}
-        <div className="flex flex-col sm:flex-row items-center w-full space-y-2 sm:space-y-0 sm:space-x-2">
+        <div className="flex flex-col md:flex-row md:items-center w-full space-y-3 md:space-y-0 md:space-x-2">
           <input
             type="number"
             name="minPrice"
             placeholder="Min Price"
-            className="w-full sm:w-auto px-3 py-2 text-base border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+            className="px-3 py-2 text-base border border-gray-300 rounded-md flex-1 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
             value={filters.minPrice}
             onChange={handleFilterChange}
           />
-          <span className="text-gray-500 hidden sm:block"> - </span>
+          <span className="text-gray-500 px-1 hidden md:inline"> - </span>
           <input
             type="number"
             name="maxPrice"
             placeholder="Max Price"
-            className="w-full sm:w-auto px-3 py-2 text-base border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+            className="px-3 py-2 text-base border border-gray-300 rounded-md flex-1 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
             value={filters.maxPrice}
             onChange={handleFilterChange}
           />
         </div>
+        
+
+        {/* Filter button - full width and clearly visible */}
+        {/* <button
+  onClick={() => setCurrentPage(1)}
+  className="hidden md:block w-full py-3 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium"
+>
+  Filter by Price
+</button> */}
+
+
 
         {/* Product Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {data?.data?.map((product: IProduct) => (
             <div
-              key={product._id}
+              key={product?._id}
               className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-all p-4 border border-gray-200"
             >
               <div className="relative">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-44 object-cover rounded-md hover:scale-105 transition-all duration-300 cursor-pointer"
+                  className="w-full h-44 object-cover rounded-md hover:scale-[1.05] transition-all duration-300 cursor-pointer"
                 />
                 <Badge
-                  className={`absolute top-2 left-2 px-3 py-1 text-xs font-semibold ${
-                    product.inStock ? "bg-green-600 text-white" : "bg-red-600 text-white"
-                  }`}
+                  className={`absolute top-2 left-2 px-3 py-1 text-xs font-semibold ${product?.inStock ? "bg-green-600 text-white" : "bg-red-600 text-white"
+                    }`}
                 >
                   {product.inStock ? "In Stock" : "Out of Stock"}
                 </Badge>
@@ -120,23 +142,17 @@ export default function StationaryProducts() {
                   </Link>
 
                   <button
-                    className={`p-2 rounded-md ${
-                      !product.inStock ? "bg-gray-400 cursor-not-allowed" : "bg-[#d63031] hover:bg-red-700"
-                    } transition-all`}
-                    disabled={!product.inStock}
-                    onClick={() =>
-                      dispatch(
-                        addToCart({
-                          ...product,
-                          selectQuantity: 1,
-                          description: product.description || "No description available",
-                          model: product.model || "",
-                          brand: product.brand || "Generic",
-                          quantity: product.quantity,
-                        })
-                      )
-                    }
-                  >
+                    className={`p-2 rounded-md ${!product?.inStock ? "bg-gray-400 cursor-not-allowed" : "bg-[#d63031] hover:bg-red-700"
+                      } transition-all`}
+                    disabled={!product?.inStock}
+                    onClick={() => dispatch(addToCart({
+                      ...product,
+                      selectQuantity: 1, // Assuming this is your custom quantity
+                      description: product.description || "No description available", // Default description if not provided
+                      model: product.model || "", // Default to empty string if model is not provided
+                      brand: product.brand || "Generic", // Default brand name for stationery
+                      quantity: product.quantity, // Default quantity for this item in the cart
+                    }))}>
                     <BiCart className="text-white text-lg" />
                   </button>
                 </div>
@@ -146,20 +162,12 @@ export default function StationaryProducts() {
         </div>
 
         {/* Pagination */}
-        <div className="flex justify-center py-8 gap-2 sm:gap-4">
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="px-4 sm:px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-600 transition-all"
-          >
+        <div className="flex justify-center py-8 gap-4">
+          <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-600 transition-all duration-300">
             Prev
           </button>
-          <span className="px-3 sm:px-4 py-2 text-black">Page {currentPage} of {totalPages}</span>
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className="px-4 sm:px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-600 transition-all"
-          >
+          <span className="px-4 py-2 text-black">Page {currentPage} of {totalPages}</span>
+          <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-600 transition-all duration-300">
             Next
           </button>
         </div>
