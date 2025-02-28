@@ -8,6 +8,7 @@ import Loading from "./Loading";
 import { Badge } from "../components/ui/badge";
 import { addToCart } from "../redux/feature/cart/cartSlice";
 
+
 export interface IProduct {
   _id: string;
   image: string;
