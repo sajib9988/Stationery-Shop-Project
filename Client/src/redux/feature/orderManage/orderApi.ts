@@ -35,6 +35,7 @@ const orderApi = baseApi.injectEndpoints({
         url: `/orders`,
         method: "POST",
         body: data,
+        timeout:30000                //add this line for timeout order issue       
       }),
       invalidatesTags: ["order", "product", "revenue"],
     }),
