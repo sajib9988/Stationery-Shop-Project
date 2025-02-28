@@ -92,7 +92,7 @@ const OrderPage = () => {
   };
 
   return (
-    <div className="container mx-auto  mt-8 p-4 lg:p-6">
+    <div className="container mx-auto  mt-10 p-4 lg:p-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2 row-span-8">
           <Card className="shadow-md h-full">
