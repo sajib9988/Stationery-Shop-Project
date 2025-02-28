@@ -94,6 +94,7 @@ export default function StationaryProducts() {
             onChange={handleFilterChange}
           />
         </div>
+        
 
         {/* Filter button - full width and clearly visible */}
         {/* <button
