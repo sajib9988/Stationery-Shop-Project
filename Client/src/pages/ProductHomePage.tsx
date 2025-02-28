@@ -144,12 +144,12 @@ export default function StationaryProducts() {
               value={filters.maxPrice}
               onChange={handleFilterChange}
             />
-            <button
+            {/* <button
               onClick={() => setCurrentPage(1)}
               className="bg-blue-600 text-white px-4 py-3 rounded-md hover:bg-blue-700 text-[16px]"
             >
               Filter by Price
-            </button>
+            </button> */}
           </div>
 
 
