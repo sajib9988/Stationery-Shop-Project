@@ -76,27 +76,27 @@ export default function StationaryProducts() {
 
         {/* Search and Filters */}
         <div className="flex flex-col md:flex-row md:items-center w-full space-y-3 md:space-y-0 md:space-x-2">
-  <input
-    type="number"
-    name="minPrice"
-    placeholder="Min Price"
-    className="px-3 py-2 text-base border border-gray-300 rounded-md flex-1 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
-    value={filters.minPrice}
-    onChange={handleFilterChange}
-  />
-  <span className="text-gray-500 px-1 hidden md:inline"> - </span>
-  <input
-    type="number"
-    name="maxPrice"
-    placeholder="Max Price"
-    className="px-3 py-2 text-base border border-gray-300 rounded-md flex-1 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
-    value={filters.maxPrice}
-    onChange={handleFilterChange}
-  />
-</div>
+          <input
+            type="number"
+            name="minPrice"
+            placeholder="Min Price"
+            className="px-3 py-2 text-base border border-gray-300 rounded-md flex-1 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+            value={filters.minPrice}
+            onChange={handleFilterChange}
+          />
+          <span className="text-gray-500 px-1 hidden md:inline"> - </span>
+          <input
+            type="number"
+            name="maxPrice"
+            placeholder="Max Price"
+            className="px-3 py-2 text-base border border-gray-300 rounded-md flex-1 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+            value={filters.maxPrice}
+            onChange={handleFilterChange}
+          />
+        </div>
 
-{/* Filter button - full width and clearly visible */}
-{/* <button
+        {/* Filter button - full width and clearly visible */}
+        {/* <button
   onClick={() => setCurrentPage(1)}
   className="hidden md:block w-full py-3 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium"
 >
