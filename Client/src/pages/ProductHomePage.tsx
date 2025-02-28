@@ -75,33 +75,33 @@ export default function StationaryProducts() {
         <h1 className="text-4xl font-bold py-6 text-[#2c3e50] text-center">Stationary Products</h1>
 
         {/* Search and Filters */}
-        <div className="flex flex-wrap md:flex-nowrap gap-2 items-center w-full">
-  <div className="flex gap-2 w-full md:w-auto">
-    <input
-      type="number"
-      name="minPrice"
-      placeholder="Min Price"
-      className="px-4 py-2 text-[16px] border border-gray-300 rounded-md w-full md:w-36 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
-      value={filters.minPrice}
-      onChange={handleFilterChange}
-    />
-    <span className="text-[16px]"> - </span>
-    <input
-      type="number"
-      name="maxPrice"
-      placeholder="Max Price"
-      className="px-4 py-2 text-[16px] border border-gray-300 rounded-md w-full md:w-36 shadow-sm"
-      value={filters.maxPrice}
-      onChange={handleFilterChange}
-    />
-  </div>
-  <button
-    onClick={() => setCurrentPage(1)}
-    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 text-[16px] w-full md:w-auto"
-  >
-    Filter by Price
-  </button>
-</div>
+        <div className="flex flex-col md:flex-row gap-2 w-full">
+          <div className="flex gap-2 w-full">
+            <input
+              type="number"
+              name="minPrice"
+              placeholder="Min Price"
+              className="px-4 py-2 text-[16px] border border-gray-300 rounded-md w-full md:w-36 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              value={filters.minPrice}
+              onChange={handleFilterChange}
+            />
+            <span className="text-[16px] flex items-center"> - </span>
+            <input
+              type="number"
+              name="maxPrice"
+              placeholder="Max Price"
+              className="px-4 py-2 text-[16px] border border-gray-300 rounded-md w-full md:w-36 shadow-sm"
+              value={filters.maxPrice}
+              onChange={handleFilterChange}
+            />
+          </div>
+          <button
+            onClick={() => setCurrentPage(1)}
+            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 text-[16px] w-full md:w-auto"
+          >
+            Filter by Price
+          </button>
+        </div>
 
 
         {/* Product Cards */}
@@ -118,9 +118,8 @@ export default function StationaryProducts() {
                   className="w-full h-44 object-cover rounded-md hover:scale-[1.05] transition-all duration-300 cursor-pointer"
                 />
                 <Badge
-                  className={`absolute top-2 left-2 px-3 py-1 text-xs font-semibold ${
-                    product?.inStock ? "bg-green-600 text-white" : "bg-red-600 text-white"
-                  }`}
+                  className={`absolute top-2 left-2 px-3 py-1 text-xs font-semibold ${product?.inStock ? "bg-green-600 text-white" : "bg-red-600 text-white"
+                    }`}
                 >
                   {product.inStock ? "In Stock" : "Out of Stock"}
                 </Badge>
@@ -141,11 +140,10 @@ export default function StationaryProducts() {
                   </Link>
 
                   <button
-                    className={`p-2 rounded-md ${
-                      !product?.inStock ? "bg-gray-400 cursor-not-allowed" : "bg-[#d63031] hover:bg-red-700"
-                    } transition-all`}
+                    className={`p-2 rounded-md ${!product?.inStock ? "bg-gray-400 cursor-not-allowed" : "bg-[#d63031] hover:bg-red-700"
+                      } transition-all`}
                     disabled={!product?.inStock}
-                    onClick={() => dispatch(addToCart({ 
+                    onClick={() => dispatch(addToCart({
                       ...product,
                       selectQuantity: 1, // Assuming this is your custom quantity
                       description: product.description || "No description available", // Default description if not provided
