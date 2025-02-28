@@ -75,33 +75,34 @@ export default function StationaryProducts() {
         <h1 className="text-4xl font-bold py-6 text-[#2c3e50] text-center">Stationary Products</h1>
 
         {/* Search and Filters */}
-        <div className="flex flex-col md:flex-row gap-2 w-full">
-          <div className="flex gap-2 w-full">
-            <input
-              type="number"
-              name="minPrice"
-              placeholder="Min Price"
-              className="px-4 py-2 text-[16px] border border-gray-300 rounded-md w-full md:w-36 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
-              value={filters.minPrice}
-              onChange={handleFilterChange}
-            />
-            <span className="text-[16px] flex items-center"> - </span>
-            <input
-              type="number"
-              name="maxPrice"
-              placeholder="Max Price"
-              className="px-4 py-2 text-[16px] border border-gray-300 rounded-md w-full md:w-36 shadow-sm"
-              value={filters.maxPrice}
-              onChange={handleFilterChange}
-            />
-          </div>
-          <button
-            onClick={() => setCurrentPage(1)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 text-[16px] w-full md:w-auto"
-          >
-            Filter by Price
-          </button>
-        </div>
+        <div className="flex flex-wrap md:flex-nowrap gap-2 w-full">
+  <div className="flex flex-wrap gap-2 w-full">
+    <input
+      type="number"
+      name="minPrice"
+      placeholder="Min Price"
+      className="px-4 py-2 text-[16px] border border-gray-300 rounded-md w-full md:w-36 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+      value={filters.minPrice}
+      onChange={handleFilterChange}
+    />
+    <span className="text-[16px] flex items-center"> - </span>
+    <input
+      type="number"
+      name="maxPrice"
+      placeholder="Max Price"
+      className="px-4 py-2 text-[16px] border border-gray-300 rounded-md w-full md:w-36 shadow-sm"
+      value={filters.maxPrice}
+      onChange={handleFilterChange}
+    />
+  </div>
+  <button
+    onClick={() => setCurrentPage(1)}
+    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 text-[16px] w-full md:w-auto min-w-[120px]"
+  >
+    Filter by Price
+  </button>
+</div>
+
 
 
         {/* Product Cards */}
