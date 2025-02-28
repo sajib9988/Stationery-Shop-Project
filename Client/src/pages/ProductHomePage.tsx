@@ -75,8 +75,9 @@ export default function StationaryProducts() {
         <h1 className="text-4xl font-bold py-6 text-[#2c3e50] text-center">Stationary Products</h1>
 
         {/* Search and Filters */}
-        <div className="flex flex-col w-full space-y-3 sm:space-y-0 sm:flex-row sm:items-center sm:space-x-3">
-  <div className="flex items-center w-full space-x-2">
+        <div className="flex flex-col w-full space-y-3">
+  {/* Price range inputs stacked on mobile, side by side on larger screens */}
+  <div className="flex items-center space-x-2">
     <input
       type="number"
       name="minPrice"
@@ -85,7 +86,7 @@ export default function StationaryProducts() {
       value={filters.minPrice}
       onChange={handleFilterChange}
     />
-    <span className="text-gray-500"> - </span>
+    <span className="text-gray-500 px-1"> - </span>
     <input
       type="number"
       name="maxPrice"
@@ -95,14 +96,15 @@ export default function StationaryProducts() {
       onChange={handleFilterChange}
     />
   </div>
+  
+  {/* Filter button - full width and clearly visible */}
   <button
     onClick={() => setCurrentPage(1)}
-    className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors sm:w-auto sm:whitespace-nowrap"
+    className="w-full py-3 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium"
   >
     Filter by Price
   </button>
 </div>
-
 
 
         {/* Product Cards */}
