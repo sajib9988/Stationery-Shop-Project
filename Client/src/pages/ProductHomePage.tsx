@@ -125,38 +125,32 @@ export default function StationaryProducts() {
           </select>
 
 
-          
-          <div className="flex flex-col md:flex-row gap-2 items-center w-full">
-  {/* Min-Max Price Inputs */}
-  <div className="flex gap-2 w-full md:w-auto">
-    <input
-      type="number"
-      name="minPrice"
-      placeholder="Min Price"
-      className="px-4 py-3 text-[16px] border border-gray-300 rounded-md w-full md:w-36 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
-      value={filters.minPrice}
-      onChange={handleFilterChange}
-    />
-    <span className="text-[16px]"> - </span>
-    <input
-      type="number"
-      name="maxPrice"
-      placeholder="Max Price"
-      className="px-4 py-3 text-[16px] border border-gray-300 rounded-md w-full md:w-36 shadow-sm"
-      value={filters.maxPrice}
-      onChange={handleFilterChange}
-    />
-  </div>
 
-  {/* Filter Button */}
-  <button
-    onClick={() => setCurrentPage(1)}
-    className="bg-blue-600 text-white px-4 py-3 rounded-md hover:bg-blue-700 text-[16px] w-full md:w-auto md:ml-3 mt-2 md:mt-0"
-  >
-    Filter by Price
-  </button>
-</div>
-
+<div className="flex gap-2 items-center">
+            <input
+              type="number"
+              name="minPrice"
+              placeholder="Min Price"
+              className="ml-3 px-4 py-3 text-[16px] border border-gray-300 rounded-md w-36 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              value={filters.minPrice}
+              onChange={handleFilterChange}
+            />
+            <span className="text-[16px]"> - </span>
+            <input
+              type="number"
+              name="maxPrice"
+              placeholder="Max Price"
+              className="ml-3 px-4 py-3 text-[16px] border border-gray-300 rounded-md w-36 shadow-sm"
+              value={filters.maxPrice}
+              onChange={handleFilterChange}
+            />
+            <button
+              onClick={() => setCurrentPage(1)}
+              className="bg-blue-600 text-white px-4 py-3 rounded-md hover:bg-blue-700 text-[16px]"
+            >
+              Filter by Price
+            </button>
+          </div>
 
 
 
