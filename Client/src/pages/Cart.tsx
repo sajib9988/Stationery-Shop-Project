@@ -15,7 +15,7 @@ const Cart = () => {
     <section className="container border-red-500 mt-6 mx-auto min-h-[70vh] grid grid-cols-1 lg:grid-cols-12 gap-12 py-6 px-4 md:px-0">
       {/* Left Side: Product List */}
       <div className="lg:col-span-9 rounded-lg shadow-md p-6 border-red-500">
-        <h2 className="text-xl font-bold mb-4">MY CART</h2>
+        <h2 className="text-xl font-bold mt-3 mb-4">MY CART</h2>
         {cartData?.items.length > 0 ? (
           cartData?.items?.map((item) => (
             <div
