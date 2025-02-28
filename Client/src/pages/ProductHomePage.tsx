@@ -8,7 +8,6 @@ import Loading from "./Loading";
 import { Badge } from "../components/ui/badge";
 import { addToCart } from "../redux/feature/cart/cartSlice";
 
-
 export interface IProduct {
   _id: string;
   image: string;
@@ -76,36 +75,88 @@ export default function StationaryProducts() {
         <h1 className="text-4xl font-bold py-6 text-[#2c3e50] text-center">Stationary Products</h1>
 
         {/* Search and Filters */}
-        <div className="flex flex-col md:flex-row md:items-center w-full space-y-3 md:space-y-0 md:space-x-2">
-          <input
-            type="number"
-            name="minPrice"
-            placeholder="Min Price"
-            className="px-3 py-2 text-base border border-gray-300 rounded-md flex-1 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
-            value={filters.minPrice}
+        <div className="flex flex-col md:flex-row gap-4 mb-6">
+        <div className="relative flex-1">
+  <input
+    type="text"
+    name="searchTerm"
+    placeholder="Search products..."
+    className="p-3 border border-gray-300 rounded-md w-full shadow-sm focus:ring-2 focus:ring-blue-400 pr-10" // Add pr-10 for padding-right
+    value={filters.searchTerm}
+    onChange={handleFilterChange}
+  />
+  <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">
+    <BiSearch size={25} />
+  </button>
+</div>
+
+
+          <select
+            name="category"
+            className="p-2 border border-gray-300 rounded-md shadow-sm"
+            value={filters.category}
             onChange={handleFilterChange}
-          />
-          <span className="text-gray-500 px-1 hidden md:inline"> - </span>
-          <input
-            type="number"
-            name="maxPrice"
-            placeholder="Max Price"
-            className="px-3 py-2 text-base border border-gray-300 rounded-md flex-1 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
-            value={filters.maxPrice}
+          >
+           <option value="">All Categories</option>
+<option value="Pen">Pen</option>
+<option value="Pencil">Pencil</option>
+<option value="Notebook">Notebook</option>
+<option value="Paper">Paper</option>
+<option value="Protractor">Protractor</option>
+<option value="Eraser">Eraser</option>
+<option value="Sharpener">Sharpener</option>
+<option value="Ruler">Ruler</option>
+<option value="Marker">Marker</option>
+<option value="Glue">Glue</option>
+<option value="Office Supplies">Office Supplies</option>
+<option value="Correction">Correction</option>
+
+          </select>
+
+          <select
+            name="inStock"
+            className="p-2 border border-gray-300 rounded-md shadow-sm"
+            value={filters.inStock}
             onChange={handleFilterChange}
-          />
+          >
+            <option value="">All Availability</option>
+            <option value="In Stock">In Stock</option>
+            <option value="Out of Stock">Out of Stock</option>
+          </select>
+
+          <div className="flex gap-2 items-center">
+  <input
+    type="number"
+    name="minPrice"
+    placeholder="Min Price"
+    className="ml-3 px-4 py-3 text-[16px] border border-gray-300 rounded-md w-36 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+    value={filters.minPrice}
+    onChange={handleFilterChange}
+  />
+  <span className="text-[16px]"> - </span>
+  <input
+    type="number"
+    name="maxPrice"
+    placeholder="Max Price"
+    className="ml-3 px-4 py-3 text-[16px] border border-gray-300 rounded-md w-36 shadow-sm"
+    value={filters.maxPrice}
+    onChange={handleFilterChange}
+  />
+  <button
+    onClick={() => setCurrentPage(1)}
+    className="bg-blue-600 text-white px-4 py-3 rounded-md hover:bg-blue-700 text-[16px]"
+  >
+    Filter by Price
+  </button>
+</div>
+
+
+       
+       
+       
+       
+       
         </div>
-        
-
-        {/* Filter button - full width and clearly visible */}
-        {/* <button
-  onClick={() => setCurrentPage(1)}
-  className="hidden md:block w-full py-3 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium"
->
-  Filter by Price
-</button> */}
-
-
 
         {/* Product Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
@@ -121,8 +172,9 @@ export default function StationaryProducts() {
                   className="w-full h-44 object-cover rounded-md hover:scale-[1.05] transition-all duration-300 cursor-pointer"
                 />
                 <Badge
-                  className={`absolute top-2 left-2 px-3 py-1 text-xs font-semibold ${product?.inStock ? "bg-green-600 text-white" : "bg-red-600 text-white"
-                    }`}
+                  className={`absolute top-2 left-2 px-3 py-1 text-xs font-semibold ${
+                    product?.inStock ? "bg-green-600 text-white" : "bg-red-600 text-white"
+                  }`}
                 >
                   {product.inStock ? "In Stock" : "Out of Stock"}
                 </Badge>
@@ -143,10 +195,11 @@ export default function StationaryProducts() {
                   </Link>
 
                   <button
-                    className={`p-2 rounded-md ${!product?.inStock ? "bg-gray-400 cursor-not-allowed" : "bg-[#d63031] hover:bg-red-700"
-                      } transition-all`}
+                    className={`p-2 rounded-md ${
+                      !product?.inStock ? "bg-gray-400 cursor-not-allowed" : "bg-[#d63031] hover:bg-red-700"
+                    } transition-all`}
                     disabled={!product?.inStock}
-                    onClick={() => dispatch(addToCart({
+                    onClick={() => dispatch(addToCart({ 
                       ...product,
                       selectQuantity: 1, // Assuming this is your custom quantity
                       description: product.description || "No description available", // Default description if not provided
