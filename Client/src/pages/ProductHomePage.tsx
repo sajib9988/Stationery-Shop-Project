@@ -96,12 +96,12 @@ export default function StationaryProducts() {
 </div>
 
 {/* Filter button - full width and clearly visible */}
-<button
+{/* <button
   onClick={() => setCurrentPage(1)}
   className="hidden md:block w-full py-3 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium"
 >
   Filter by Price
-</button>
+</button> */}
 
 
 
