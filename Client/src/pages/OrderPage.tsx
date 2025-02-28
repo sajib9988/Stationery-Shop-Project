@@ -69,7 +69,7 @@ const OrderPage = () => {
       })),
     };
 
-    await createOrder(formattedData).unwrap();
+    await createOrder(formattedData);
   };
 
   if (isLoading) {
