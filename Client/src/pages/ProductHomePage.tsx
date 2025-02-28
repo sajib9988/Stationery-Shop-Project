@@ -75,88 +75,34 @@ export default function StationaryProducts() {
         <h1 className="text-4xl font-bold py-6 text-[#2c3e50] text-center">Stationary Products</h1>
 
         {/* Search and Filters */}
-        <div className="flex flex-col md:flex-row gap-4 mb-6">
-        <div className="relative flex-1">
-  <input
-    type="text"
-    name="searchTerm"
-    placeholder="Search products..."
-    className="p-3 border border-gray-300 rounded-md w-full shadow-sm focus:ring-2 focus:ring-blue-400 pr-10" // Add pr-10 for padding-right
-    value={filters.searchTerm}
-    onChange={handleFilterChange}
-  />
-  <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">
-    <BiSearch size={25} />
-  </button>
-</div>
-
-
-          <select
-            name="category"
-            className="p-2 border border-gray-300 rounded-md shadow-sm"
-            value={filters.category}
-            onChange={handleFilterChange}
-          >
-           <option value="">All Categories</option>
-<option value="Pen">Pen</option>
-<option value="Pencil">Pencil</option>
-<option value="Notebook">Notebook</option>
-<option value="Paper">Paper</option>
-<option value="Protractor">Protractor</option>
-<option value="Eraser">Eraser</option>
-<option value="Sharpener">Sharpener</option>
-<option value="Ruler">Ruler</option>
-<option value="Marker">Marker</option>
-<option value="Glue">Glue</option>
-<option value="Office Supplies">Office Supplies</option>
-<option value="Correction">Correction</option>
-
-          </select>
-
-          <select
-            name="inStock"
-            className="p-2 border border-gray-300 rounded-md shadow-sm"
-            value={filters.inStock}
-            onChange={handleFilterChange}
-          >
-            <option value="">All Availability</option>
-            <option value="In Stock">In Stock</option>
-            <option value="Out of Stock">Out of Stock</option>
-          </select>
-
-          <div className="flex gap-2 items-center">
-  <input
-    type="number"
-    name="minPrice"
-    placeholder="Min Price"
-    className="ml-3 px-4 py-3 text-[16px] border border-gray-300 rounded-md w-36 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
-    value={filters.minPrice}
-    onChange={handleFilterChange}
-  />
-  <span className="text-[16px]"> - </span>
-  <input
-    type="number"
-    name="maxPrice"
-    placeholder="Max Price"
-    className="ml-3 px-4 py-3 text-[16px] border border-gray-300 rounded-md w-36 shadow-sm"
-    value={filters.maxPrice}
-    onChange={handleFilterChange}
-  />
+        <div className="flex flex-wrap md:flex-nowrap gap-2 items-center w-full">
+  <div className="flex gap-2 w-full md:w-auto">
+    <input
+      type="number"
+      name="minPrice"
+      placeholder="Min Price"
+      className="px-4 py-2 text-[16px] border border-gray-300 rounded-md w-full md:w-36 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+      value={filters.minPrice}
+      onChange={handleFilterChange}
+    />
+    <span className="text-[16px]"> - </span>
+    <input
+      type="number"
+      name="maxPrice"
+      placeholder="Max Price"
+      className="px-4 py-2 text-[16px] border border-gray-300 rounded-md w-full md:w-36 shadow-sm"
+      value={filters.maxPrice}
+      onChange={handleFilterChange}
+    />
+  </div>
   <button
     onClick={() => setCurrentPage(1)}
-    className="bg-blue-600 text-white px-4 py-3 rounded-md hover:bg-blue-700 text-[16px]"
+    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 text-[16px] w-full md:w-auto"
   >
     Filter by Price
   </button>
 </div>
 
-
-       
-       
-       
-       
-       
-        </div>
 
         {/* Product Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
