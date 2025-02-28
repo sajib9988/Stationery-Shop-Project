@@ -75,37 +75,37 @@ export default function StationaryProducts() {
         <h1 className="text-4xl font-bold py-6 text-[#2c3e50] text-center">Stationary Products</h1>
 
         {/* Search and Filters */}
-        <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
-          <div className="flex flex-col w-full space-y-3">
-            <div className="flex items-center space-x-2">
-              <input
-                type="number"
-                name="minPrice"
-                placeholder="Min Price"
-                className="px-3 py-2 text-base border border-gray-300 rounded-md flex-1 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                value={filters.minPrice}
-                onChange={handleFilterChange}
-              />
-              <span className="text-gray-500 px-1"> - </span>
-              <input
-                type="number"
-                name="maxPrice"
-                placeholder="Max Price"
-                className="px-3 py-2 text-base border border-gray-300 rounded-md flex-1 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                value={filters.maxPrice}
-                onChange={handleFilterChange}
-              />
-            </div>
-
-            {/* Filter button - full width and clearly visible */}
-            <button
-              onClick={() => setCurrentPage(1)}
-              className="w-full py-3 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium"
-            >
-              Filter by Price
-            </button>
+        <div className="flex flex-col w-full space-y-3">
+  
+          <div className="flex items-center space-x-2">
+            <input
+              type="number"
+              name="minPrice"
+              placeholder="Min Price"
+              className="px-3 py-2 text-base border border-gray-300 rounded-md flex-1 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              value={filters.minPrice}
+              onChange={handleFilterChange}
+            />
+            <span className="text-gray-500 px-1"> - </span>
+            <input
+              type="number"
+              name="maxPrice"
+              placeholder="Max Price"
+              className="px-3 py-2 text-base border border-gray-300 rounded-md flex-1 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              value={filters.maxPrice}
+              onChange={handleFilterChange}
+            />
           </div>
+
+          {/* Filter button - full width and clearly visible */}
+          <button
+  onClick={() => setCurrentPage(1)}
+  className="hidden md:block w-full py-3 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium"
+>
+  Filter by Price
+</button>
         </div>
+
 
         {/* Product Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
