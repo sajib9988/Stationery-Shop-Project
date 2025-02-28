@@ -76,19 +76,19 @@ export default function StationaryProducts() {
 
         {/* Search and Filters */}
         <div className="flex flex-col md:flex-row gap-4 mb-6">
-        <div className="relative flex-1">
-  <input
-    type="text"
-    name="searchTerm"
-    placeholder="Search products..."
-    className="p-3 border border-gray-300 rounded-md w-full shadow-sm focus:ring-2 focus:ring-blue-400 pr-10" // Add pr-10 for padding-right
-    value={filters.searchTerm}
-    onChange={handleFilterChange}
-  />
-  <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">
-    <BiSearch size={25} />
-  </button>
-</div>
+          <div className="relative flex-1">
+            <input
+              type="text"
+              name="searchTerm"
+              placeholder="Search products..."
+              className="p-3 border border-gray-300 rounded-md w-full shadow-sm focus:ring-2 focus:ring-blue-400 pr-10" // Add pr-10 for padding-right
+              value={filters.searchTerm}
+              onChange={handleFilterChange}
+            />
+            <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">
+              <BiSearch size={25} />
+            </button>
+          </div>
 
 
           <select
@@ -97,19 +97,19 @@ export default function StationaryProducts() {
             value={filters.category}
             onChange={handleFilterChange}
           >
-           <option value="">All Categories</option>
-<option value="Pen">Pen</option>
-<option value="Pencil">Pencil</option>
-<option value="Notebook">Notebook</option>
-<option value="Paper">Paper</option>
-<option value="Protractor">Protractor</option>
-<option value="Eraser">Eraser</option>
-<option value="Sharpener">Sharpener</option>
-<option value="Ruler">Ruler</option>
-<option value="Marker">Marker</option>
-<option value="Glue">Glue</option>
-<option value="Office Supplies">Office Supplies</option>
-<option value="Correction">Correction</option>
+            <option value="">All Categories</option>
+            <option value="Pen">Pen</option>
+            <option value="Pencil">Pencil</option>
+            <option value="Notebook">Notebook</option>
+            <option value="Paper">Paper</option>
+            <option value="Protractor">Protractor</option>
+            <option value="Eraser">Eraser</option>
+            <option value="Sharpener">Sharpener</option>
+            <option value="Ruler">Ruler</option>
+            <option value="Marker">Marker</option>
+            <option value="Glue">Glue</option>
+            <option value="Office Supplies">Office Supplies</option>
+            <option value="Correction">Correction</option>
 
           </select>
 
@@ -124,38 +124,42 @@ export default function StationaryProducts() {
             <option value="Out of Stock">Out of Stock</option>
           </select>
 
-          <div className="flex gap-2 items-center">
-  <input
-    type="number"
-    name="minPrice"
-    placeholder="Min Price"
-    className="ml-3 px-4 py-3 text-[16px] border border-gray-300 rounded-md w-36 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
-    value={filters.minPrice}
-    onChange={handleFilterChange}
-  />
-  <span className="text-[16px]"> - </span>
-  <input
-    type="number"
-    name="maxPrice"
-    placeholder="Max Price"
-    className="ml-3 px-4 py-3 text-[16px] border border-gray-300 rounded-md w-36 shadow-sm"
-    value={filters.maxPrice}
-    onChange={handleFilterChange}
-  />
+          <div className="flex flex-col gap-2 items-center w-full">
+  <div className="flex gap-2 w-full">
+    <input
+      type="number"
+      name="minPrice"
+      placeholder="Min Price"
+      className="px-4 py-3 text-[16px] border border-gray-300 rounded-md w-full shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+      value={filters.minPrice}
+      onChange={handleFilterChange}
+    />
+    <span className="text-[16px]"> - </span>
+    <input
+      type="number"
+      name="maxPrice"
+      placeholder="Max Price"
+      className="px-4 py-3 text-[16px] border border-gray-300 rounded-md w-full shadow-sm"
+      value={filters.maxPrice}
+      onChange={handleFilterChange}
+    />
+  </div>
+
   <button
     onClick={() => setCurrentPage(1)}
-    className="bg-blue-600 text-white px-4 py-3 rounded-md hover:bg-blue-700 text-[16px]"
+    className="bg-blue-600 text-white px-4 py-3 rounded-md hover:bg-blue-700 text-[16px] w-full mt-2"
   >
     Filter by Price
   </button>
 </div>
 
 
-       
-       
-       
-       
-       
+
+
+
+
+
+
         </div>
 
         {/* Product Cards */}
@@ -172,9 +176,8 @@ export default function StationaryProducts() {
                   className="w-full h-44 object-cover rounded-md hover:scale-[1.05] transition-all duration-300 cursor-pointer"
                 />
                 <Badge
-                  className={`absolute top-2 left-2 px-3 py-1 text-xs font-semibold ${
-                    product?.inStock ? "bg-green-600 text-white" : "bg-red-600 text-white"
-                  }`}
+                  className={`absolute top-2 left-2 px-3 py-1 text-xs font-semibold ${product?.inStock ? "bg-green-600 text-white" : "bg-red-600 text-white"
+                    }`}
                 >
                   {product.inStock ? "In Stock" : "Out of Stock"}
                 </Badge>
@@ -195,11 +198,10 @@ export default function StationaryProducts() {
                   </Link>
 
                   <button
-                    className={`p-2 rounded-md ${
-                      !product?.inStock ? "bg-gray-400 cursor-not-allowed" : "bg-[#d63031] hover:bg-red-700"
-                    } transition-all`}
+                    className={`p-2 rounded-md ${!product?.inStock ? "bg-gray-400 cursor-not-allowed" : "bg-[#d63031] hover:bg-red-700"
+                      } transition-all`}
                     disabled={!product?.inStock}
-                    onClick={() => dispatch(addToCart({ 
+                    onClick={() => dispatch(addToCart({
                       ...product,
                       selectQuantity: 1, // Assuming this is your custom quantity
                       description: product.description || "No description available", // Default description if not provided
