@@ -1,20 +1,16 @@
-import { z } from 'zod';
-
+import { z } from 'zod'
 
 const orderValidationSchema = z.object({
   body: z.object({
-   
     products: z.array(
       z.object({
-        _id: z.string().min(1, "Product ID is required"),
-        quantity: z.number().int().min(1, "Quantity must be at least 1"),
+        product: z.string(),
+        quantity: z.number()
       })
-    ).min(1, "At least one product is required"),
-
-  }),
-});
-
+    )
+  })
+})
 
 export const orderValidation = {
-  orderValidationSchema,
-};
+  orderValidationSchema
+}
