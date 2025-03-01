@@ -13,34 +13,20 @@ import { IUser } from '../auth/auth.interface';
 const createOrder = async (
   user: IUser,
   payload: { products: { _id: string; quantity: number }[] },
-  client_ip: string,
+  client_ip: string
 ) => {
   const id = user?.userId;
   const userData = await User.findById(id);
-  if (!payload?.products?.length)
-    throw new AppError(403, 'Order is not specified');
+  if (!payload?.products?.length) throw new AppError(403, 'Order is not specified');
 
-  const products = payload?.products;
+  const productIds = payload.products.map(item => item._id);
+  const productData = await Product.find({ _id: { $in: productIds } });
 
   let totalPrice = 0;
-  const productDetails = await Promise.all(
-    products.map(async (item) => {
-      const product = await Product.findById(item._id);
-      if (product) {
-        const subtotal = product ? (product?.price || 0) * item.quantity : 0;
-        totalPrice += subtotal;
-        return item;
-      }
-    }),
-  );
-
-  const transformedProducts: any[] = [];
-
-  productDetails.forEach((product) => {
-    transformedProducts.push({
-      product: product?._id,
-      quantity: product?.quantity,
-    });
+  const transformedProducts = productData.map(product => {
+    const quantity = payload.products.find(p => p._id === product._id.toString())?.quantity || 0;
+    totalPrice += (product?.price || 0) * quantity;
+    return { product: product._id, quantity };
   });
 
   let order = await Order.create({
@@ -49,7 +35,7 @@ const createOrder = async (
     totalPrice,
   });
 
-  // payment integration
+  // Payment integration
   const shurjopayPayload = {
     amount: totalPrice,
     order_id: order._id,
@@ -63,18 +49,16 @@ const createOrder = async (
   };
 
   const payment = await orderUtils.makePaymentAsync(shurjopayPayload);
-  // console.log(payment, 'payment');
+
   if (payment?.transactionStatus) {
-    order = await order.updateOne({
-      transaction: {
-        id: payment.sp_order_id,
-        transactionStatus: payment.transactionStatus,
-      },
+    await order.updateOne({
+      transaction: { id: payment.sp_order_id, transactionStatus: payment.transactionStatus },
     });
   }
 
   return payment.checkout_url;
 };
+
 
 
 // get orders

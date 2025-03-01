@@ -4,6 +4,7 @@ import { logout, setUser } from "../feature/authManage/authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://stationery-project.vercel.app/api",
+  // baseUrl: "http://localhost:5000/api",
   credentials: "include", 
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
@@ -30,6 +31,10 @@ const baseQueryWithRefreshToken: BaseQueryFn<
       method: "POST",
       credentials: "include",
     });
+    // const res = await fetch("https://localhost:5000/api/auth/refresh-token", {
+    //   method: "POST",
+    //   credentials: "include",
+    // });
 
     const data = await res.json();
     // console.log("🔑 New Token Received:", data);
